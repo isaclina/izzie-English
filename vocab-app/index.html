@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Izzie 중등 영단어</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a single-column workbook — home lists units, each word opens a five-step card, reviews are graded drills */
+:root {
+  --bg: #f3f5f9;
+  --paper: #ffffff;
+  --ink: #1a2238;
+  --muted: #5c6782;
+  --line: #d9dfeb;
+  --accent: #2443b8;
+  --accent-soft: #e4e9fb;
+  --marker: #ffe36b;
+  --good: #16794a;
+  --good-soft: #dcf3e7;
+  --bad: #b42a2a;
+  --bad-soft: #fbe3e3;
+  --display: "Bricolage Grotesque", "Noto Sans KR", system-ui, sans-serif;
+  --body: "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1424; --paper: #182039; --ink: #e8ecf7; --muted: #9aa5c2; --line: #2b3657;
+    --accent: #8ea6ff; --accent-soft: #24305a; --marker: #6b5a12;
+    --good: #5fd39a; --good-soft: #143a2a; --bad: #ff8a8a; --bad-soft: #43191d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1424; --paper: #182039; --ink: #e8ecf7; --muted: #9aa5c2; --line: #2b3657;
+  --accent: #8ea6ff; --accent-soft: #24305a; --marker: #6b5a12;
+  --good: #5fd39a; --good-soft: #143a2a; --bad: #ff8a8a; --bad-soft: #43191d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.back { background: none; border: 0; color: var(--accent); font-weight: 700; padding: 6px 0; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 16px; border-radius: 999px; border: 1.5px solid var(--line);
+  background: var(--paper); color: var(--ink); font-weight: 500; min-height: 44px;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); font-weight: 700; }
+.btn.small { min-height: 36px; padding: 6px 12px; font-size: 0.9rem; }
+.btn.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+.units { display: grid; gap: 14px; }
+.unit {
+  background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius);
+  padding: 18px; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; text-align: left; color: var(--ink);
+}
+.unit:hover { border-color: var(--accent); }
+.unit .num { grid-row: span 3; font-family: var(--display); font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--accent); align-self: center; }
+.unit .title { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.bar { height: 8px; background: var(--accent-soft); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.stats { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.panel { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1.5px solid var(--line); background: var(--paper); color: var(--ink);
+  border-radius: 999px; padding: 4px 12px; font-family: var(--display); font-weight: 500; font-size: 0.95rem;
+}
+.chip.done { background: var(--good-soft); border-color: var(--good); color: var(--good); }
+.chip:hover { border-color: var(--accent); }
+
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.step {
+  border: 0; border-bottom: 3px solid var(--line); background: none; color: var(--muted);
+  padding: 6px 2px; font-size: 0.8rem; font-weight: 500; line-height: 1.3;
+}
+.step b { display: block; font-family: var(--mono); font-size: 0.75rem; }
+.step.cur { color: var(--accent); border-color: var(--accent); font-weight: 700; }
+.step.seen { color: var(--ink); }
+
+.word { font-family: var(--display); font-weight: 800; font-size: clamp(2.6rem, 11vw, 4rem); line-height: 1; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+.pos { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); }
+.meaning { font-size: 1.3rem; font-weight: 700; }
+.syn { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; font-family: var(--display); }
+.syn .eq { font-size: 1.6rem; color: var(--muted); }
+.syn .s2 { font-size: 2.2rem; font-weight: 700; color: var(--accent); }
+.sentence { font-family: var(--display); font-size: 1.5rem; font-weight: 500; line-height: 1.45; }
+mark { background: linear-gradient(transparent 55%, var(--marker) 55%); color: inherit; padding: 0 2px; font-weight: 700; }
+.ko { color: var(--muted); }
+
+textarea, input[type="text"] {
+  width: 100%; font: inherit; font-size: 1.1rem; padding: 12px 14px; border-radius: 10px;
+  border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); resize: vertical;
+}
+.feedback { border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.feedback.good { background: var(--good-soft); color: var(--good); }
+.feedback.bad { background: var(--bad-soft); color: var(--bad); }
+.feedback .answer { color: var(--ink); font-family: var(--display); font-size: 1.1rem; }
+.w-ok { color: var(--good); }
+.w-miss { color: var(--bad); text-decoration: underline wavy; text-underline-offset: 4px; font-weight: 700; }
+.hint { font-family: var(--mono); letter-spacing: 0.05em; color: var(--muted); overflow-wrap: anywhere; }
+
+.dots { display: flex; gap: 8px; }
+.dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--accent); }
+.dot.fill { background: var(--accent); }
+
+.nav { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.counter { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.score { font-family: var(--display); font-weight: 800; font-size: 3.4rem; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+.wrong-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.wrong-list li { border-top: 1px solid var(--line); padding-top: 10px; display: flex; flex-direction: column; gap: 2px; }
+.wrong-list .yours { color: var(--bad); font-size: 0.9rem; }
+.note { font-size: 0.85rem; color: var(--muted); }
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.review-card { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 14px; text-align: left; color: var(--ink); display: flex; flex-direction: column; gap: 4px; }
+.review-card:hover { border-color: var(--accent); }
+.review-card b { font-family: var(--display); font-size: 1.05rem; }
+@media (max-width: 520px) { .reviews { grid-template-columns: 1fr; } .step { font-size: 0.7rem; } }
+@media (prefers-reduced-motion: no-preference) { .panel { animation: rise .25s ease-out; } @keyframes rise { from { transform: translateY(6px); } to { transform: none; } } }
+</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+<script>
+const UNITS = [
+  { id: "u1", title: "학교와 일상", en: "School & Daily Life", words: [
+    ["begin","v.","시작하다","start","The class will begin at nine o'clock.","수업은 9시에 시작할 것이다."],
+    ["finish","v.","끝내다","complete","I finished my homework before dinner.","나는 저녁 식사 전에 숙제를 끝냈다."],
+    ["answer","v.","대답하다","reply","Please answer the question in English.","그 질문에 영어로 대답해 주세요."],
+    ["easy","adj.","쉬운","simple","The math test was easy for me.","그 수학 시험은 나에게 쉬웠다."],
+    ["difficult","adj.","어려운","hard","Learning a new language is difficult but fun.","새로운 언어를 배우는 것은 어렵지만 재미있다."],
+    ["choose","v.","고르다, 선택하다","select","You can choose one book from the shelf.","너는 책장에서 책 한 권을 고를 수 있다."],
+    ["explain","v.","설명하다","describe","The teacher explained the rule again.","선생님께서 그 규칙을 다시 설명해 주셨다."],
+    ["important","adj.","중요한","significant","Breakfast is an important meal.","아침 식사는 중요한 식사이다."],
+    ["quickly","adv.","빨리","fast","He ran quickly to catch the bus.","그는 버스를 타려고 빨리 달렸다."],
+    ["often","adv.","자주","frequently","I often go to the library after school.","나는 방과 후에 자주 도서관에 간다."],
+    ["usually","adv.","보통, 대개","normally","I usually get up at seven.","나는 보통 7시에 일어난다."],
+    ["receive","v.","받다","get","I received a letter from my friend.","나는 친구에게서 편지를 받았다."],
+    ["enough","adj.","충분한","sufficient","We have enough time to finish the project.","우리는 그 과제를 끝낼 충분한 시간이 있다."],
+    ["correct","adj.","올바른, 정확한","right","Your answer is correct.","너의 답은 정확하다."],
+    ["mistake","n.","실수","error","Everyone makes mistakes.","누구나 실수를 한다."],
+    ["practice","v.","연습하다","train","I practice the piano every day.","나는 매일 피아노를 연습한다."],
+    ["remember","v.","기억하다","recall","I can't remember his name.","나는 그의 이름이 기억나지 않는다."],
+    ["understand","v.","이해하다","comprehend","Do you understand the question?","너는 그 질문을 이해하니?"],
+    ["prepare","v.","준비하다","get ready","She prepared for the exam all week.","그녀는 일주일 내내 시험을 준비했다."],
+    ["classmate","n.","반 친구","schoolmate","My classmate helped me with science.","반 친구가 과학 공부를 도와주었다."],
+    ["subject","n.","과목","course","My favorite subject is history.","내가 가장 좋아하는 과목은 역사이다."],
+    ["tired","adj.","피곤한","exhausted","I was tired after the long day.","긴 하루를 보낸 후 나는 피곤했다."],
+    ["hungry","adj.","배고픈","starving","I'm hungry, so let's eat lunch.","나 배고파, 그러니 점심 먹자."],
+    ["delicious","adj.","맛있는","tasty","This soup is really delicious.","이 수프는 정말 맛있다."],
+    ["bring","v.","가져오다","carry","Don't forget to bring your textbook.","교과서 가져오는 것을 잊지 마라."],
+    ["arrive","v.","도착하다","reach","We arrived at school at eight.","우리는 8시에 학교에 도착했다."],
+    ["return","v.","돌려주다, 돌아오다","give back","I will return the book tomorrow.","나는 내일 그 책을 돌려줄 것이다."],
+    ["clean","v.","청소하다","tidy","We clean our classroom every Friday.","우리는 매주 금요일에 교실을 청소한다."],
+    ["rule","n.","규칙","regulation","We must follow the school rules.","우리는 학교 규칙을 따라야 한다."],
+    ["goal","n.","목표","aim","My goal is to read fifty books this year.","나의 목표는 올해 책 50권을 읽는 것이다."]
+  ]},
+  { id: "u2", title: "사람과 감정", en: "People & Feelings", words: [
+    ["happy","adj.","행복한, 기쁜","glad","I am happy to see you again.","너를 다시 만나서 기뻐."],
+    ["sad","adj.","슬픈","unhappy","She felt sad when her dog was sick.","그녀는 개가 아팠을 때 슬펐다."],
+    ["angry","adj.","화난","mad","Dad was angry because I broke the window.","내가 창문을 깨서 아빠가 화가 나셨다."],
+    ["afraid","adj.","두려워하는","scared","My little brother is afraid of the dark.","내 남동생은 어둠을 무서워한다."],
+    ["surprised","adj.","놀란","amazed","I was surprised by the birthday party.","나는 생일 파티에 깜짝 놀랐다."],
+    ["worried","adj.","걱정하는","anxious","Mom is worried about my grandma's health.","엄마는 할머니의 건강을 걱정하신다."],
+    ["excited","adj.","신이 난","thrilled","The students were excited about the field trip.","학생들은 현장 학습에 신이 났다."],
+    ["proud","adj.","자랑스러워하는","pleased","My parents are proud of me.","부모님은 나를 자랑스러워하신다."],
+    ["kind","adj.","친절한","nice","The new teacher is very kind to everyone.","새로 오신 선생님은 모두에게 매우 친절하시다."],
+    ["honest","adj.","정직한","truthful","An honest person always tells the truth.","정직한 사람은 항상 진실을 말한다."],
+    ["brave","adj.","용감한","courageous","The brave firefighter saved the child.","용감한 소방관이 아이를 구했다."],
+    ["shy","adj.","수줍어하는","timid","He is shy, so he doesn't talk much in class.","그는 수줍음이 많아서 수업 시간에 말을 많이 하지 않는다."],
+    ["polite","adj.","예의 바른","courteous","It is polite to say thank you.","고맙다고 말하는 것은 예의 바른 일이다."],
+    ["friendly","adj.","다정한, 친절한","warm","Our neighbors are very friendly.","우리 이웃들은 매우 다정하다."],
+    ["lonely","adj.","외로운","lonesome","She felt lonely in the new city.","그녀는 새로운 도시에서 외로움을 느꼈다."],
+    ["smile","v.","미소 짓다","grin","The baby smiled at me.","아기가 나를 보고 미소 지었다."],
+    ["laugh","v.","웃다","giggle","We laughed at his funny story.","우리는 그의 웃긴 이야기에 웃었다."],
+    ["cry","v.","울다","weep","The movie made me cry.","그 영화는 나를 울게 만들었다."],
+    ["help","v.","돕다","assist","Can you help me carry this box?","이 상자 나르는 것을 도와줄 수 있니?"],
+    ["share","v.","나누다, 공유하다","split","Let's share the pizza with our friends.","친구들과 피자를 나누어 먹자."],
+    ["care","v.","돌보다 (care for)","look after","She takes good care of her little sister.","그녀는 여동생을 잘 돌본다."],
+    ["trust","v.","믿다, 신뢰하다","believe","I trust my best friend completely.","나는 가장 친한 친구를 완전히 믿는다."],
+    ["promise","v.","약속하다","pledge","I promise to call you tonight.","오늘 밤에 너에게 전화하겠다고 약속할게."],
+    ["forgive","v.","용서하다","pardon","Please forgive me for being late.","늦은 것을 용서해 주세요."],
+    ["friendship","n.","우정","companionship","Our friendship is very special.","우리의 우정은 매우 특별하다."],
+    ["gentle","adj.","온화한, 부드러운","tender","Be gentle with the little puppy.","작은 강아지를 부드럽게 대해라."],
+    ["serious","adj.","진지한","earnest","He looked serious during the meeting.","그는 회의 동안 진지해 보였다."],
+    ["favorite","adj.","가장 좋아하는","preferred","Pizza is my favorite food.","피자는 내가 가장 좋아하는 음식이다."],
+    ["enjoy","v.","즐기다","like","I enjoy playing soccer with my friends.","나는 친구들과 축구하는 것을 즐긴다."],
+    ["feel","v.","느끼다","sense","I feel great today.","나는 오늘 기분이 아주 좋다."]
+  ]},
+  { id: "u3", title: "자연과 세상", en: "Nature & the World", words: [
+    ["weather","n.","날씨","climate","The weather is sunny today.","오늘은 날씨가 화창하다."],
+    ["huge","adj.","거대한","enormous","A huge whale swam near the boat.","거대한 고래가 배 근처에서 헤엄쳤다."],
+    ["tiny","adj.","아주 작은","little","A tiny bird sat on the branch.","아주 작은 새 한 마리가 나뭇가지에 앉았다."],
+    ["forest","n.","숲","woods","Many animals live in the forest.","많은 동물이 숲에 산다."],
+    ["ocean","n.","대양, 바다","sea","The Pacific Ocean is the largest ocean.","태평양은 가장 큰 바다이다."],
+    ["stone","n.","돌","rock","He threw a stone into the river.","그는 강에 돌을 던졌다."],
+    ["shine","v.","빛나다","glow","The stars shine brightly at night.","별들이 밤에 밝게 빛난다."],
+    ["cold","adj.","추운","chilly","It is very cold in winter.","겨울에는 매우 춥다."],
+    ["wet","adj.","젖은","damp","My shoes got wet in the rain.","내 신발이 비에 젖었다."],
+    ["dry","adj.","건조한, 마른","arid","The desert is very dry.","사막은 매우 건조하다."],
+    ["protect","v.","보호하다","guard","We must protect wild animals.","우리는 야생 동물을 보호해야 한다."],
+    ["environment","n.","환경","surroundings","We should keep our environment clean.","우리는 환경을 깨끗하게 지켜야 한다."],
+    ["pollution","n.","오염","contamination","Air pollution is a big problem in cities.","대기 오염은 도시의 큰 문제이다."],
+    ["save","v.","구하다","rescue","The dog saved the boy from the fire.","그 개가 불 속에서 소년을 구했다."],
+    ["travel","v.","여행하다","journey","I want to travel around the world.","나는 세계 일주 여행을 하고 싶다."],
+    ["country","n.","나라","nation","Korea is a beautiful country.","한국은 아름다운 나라이다."],
+    ["city","n.","도시","town","Seoul is a very busy city.","서울은 매우 바쁜 도시이다."],
+    ["famous","adj.","유명한","well-known","The Eiffel Tower is famous all over the world.","에펠탑은 전 세계적으로 유명하다."],
+    ["ancient","adj.","고대의","old","We visited an ancient temple in Gyeongju.","우리는 경주에 있는 고대 사찰을 방문했다."],
+    ["beautiful","adj.","아름다운","pretty","The sunset was beautiful.","석양이 아름다웠다."],
+    ["quiet","adj.","조용한","silent","The library is always quiet.","도서관은 항상 조용하다."],
+    ["noisy","adj.","시끄러운","loud","The street is noisy at night.","그 거리는 밤에 시끄럽다."],
+    ["discover","v.","발견하다","find","Scientists discovered a new kind of fish.","과학자들이 새로운 종류의 물고기를 발견했다."],
+    ["grow","v.","자라다","develop","Plants grow well in sunlight.","식물은 햇빛 아래에서 잘 자란다."],
+    ["disappear","v.","사라지다","vanish","The sun disappeared behind the clouds.","해가 구름 뒤로 사라졌다."],
+    ["danger","n.","위험","risk","Some animals are in danger.","어떤 동물들은 위험에 처해 있다."],
+    ["wild","adj.","야생의","untamed","Lions are wild animals.","사자는 야생 동물이다."],
+    ["future","n.","미래","tomorrow","What do you want to be in the future?","너는 미래에 무엇이 되고 싶니?"],
+    ["world","n.","세계","earth","English is spoken all over the world.","영어는 전 세계에서 쓰인다."],
+    ["energy","n.","에너지","power","Solar energy comes from the sun.","태양 에너지는 태양에서 온다."]
+  ]}
+].map(u => ({ ...u, words: u.words.map(([word, pos, ko, syn, sent, sentKo]) => ({ word, pos, ko, syn, sent, sentKo })) }));
+
+const STEPS = ["단어", "따라하기", "동의어", "문장 듣기", "문장 쓰기"];
+const STORE_KEY = "izzie-vocab-v1";
+const app = document.getElementById("app");
+
+let progress = { studied: {}, best: {} };
+try { progress = Object.assign(progress, JSON.parse(localStorage.getItem(STORE_KEY) || "{}")); } catch (e) {}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch (e) {} }
+
+let state = { view: "home" };
+
+/* ---------- speech ---------- */
+let voice = null;
+function pickVoice() {
+  if (!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices().filter(v => /^en[-_]/i.test(v.lang));
+  voice = vs.find(v => /en[-_]US/i.test(v.lang) && /Google|Samantha|Natural|Aria|Jenny/i.test(v.name))
+       || vs.find(v => /en[-_]US/i.test(v.lang)) || vs[0] || null;
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+/* recorded mp3s in audio/ play first; the browser voice is the fallback */
+const AUDIO = {};
+UNITS.forEach(u => u.words.forEach(w => {
+  const base = "audio/" + u.id + "-" + w.word;
+  AUDIO[w.word] = AUDIO[w.word] || base + "-word.mp3";
+  AUDIO[w.syn] = AUDIO[w.syn] || base + "-syn.mp3";
+  AUDIO[w.sent] = base + "-sent.mp3";
+}));
+const player = new Audio();
+let playToken = 0;
+function stopSound() {
+  playToken++;
+  player.pause();
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+function speak(text, slow) {
+  stopSound();
+  const parts = AUDIO[text] ? [text] : text.split(". ");
+  if (!parts.every(p => AUDIO[p])) { ttsSpeak(text, slow); return; }
+  const token = playToken;
+  const playAt = k => {
+    if (token !== playToken || k >= parts.length) return;
+    player.src = AUDIO[parts[k]];
+    player.playbackRate = slow ? 0.7 : 1;
+    player.onended = () => setTimeout(() => playAt(k + 1), 300);
+    player.onerror = () => { if (token === playToken) ttsSpeak(parts.slice(k).join(". "), slow); };
+    player.play().catch(err => { if (err.name !== "AbortError" && token === playToken) ttsSpeak(parts.slice(k).join(". "), slow); });
+  };
+  playAt(0);
+}
+function ttsSpeak(text, slow) {
+  if (!("speechSynthesis" in window)) { toastNoTTS(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US"; if (voice) u.voice = voice;
+  u.rate = slow ? 0.6 : 0.9;
+  speechSynthesis.speak(u);
+}
+function toastNoTTS() {
+  const el = document.getElementById("tts-note");
+  if (el) el.hidden = false;
+}
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = s => s.toLowerCase().replace(/[’‘`]/g, "'").replace(/[^a-z0-9'\s-]/g, " ").replace(/-/g, " ").replace(/\s+/g, " ").trim();
+const unitById = id => UNITS.find(u => u.id === id);
+const key = (u, w) => u.id + ":" + w.word;
+const studiedCount = u => u.words.filter(w => progress.studied[key(u, w)]).length;
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function highlight(w) {
+  const safe = esc(w.sent);
+  const re = new RegExp("\\b(" + w.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[a-z]*)", "i");
+  return safe.replace(re, "<mark>$1</mark>");
+}
+function hintOf(sent) { return sent.split(" ").map(t => t.replace(/[A-Za-z]/g, (c, i) => i === 0 ? c : "_")).join("  "); }
+
+/* word-level comparison: mark which words of the answer the student got (LCS) */
+function compare(expected, typed) {
+  const a = norm(expected).split(" "), b = norm(typed).split(" ").filter(Boolean);
+  const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--)
+    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const hit = new Set(); let i = 0, j = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { hit.add(i); i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+  }
+  const orig = expected.split(" ");
+  const html = orig.map((t, k) => `<span class="${hit.has(k) ? "w-ok" : "w-miss"}">${esc(t)}</span>`).join(" ");
+  const exact = norm(expected) === norm(typed);
+  return { exact, html, ratio: hit.size / a.length };
+}
+
+/* ---------- views ---------- */
+function render() {
+  stopSound();
+  const v = state.view;
+  app.innerHTML = v === "home" ? viewHome() : v === "unit" ? viewUnit() : v === "study" ? viewStudy()
+    : v === "reviewSetup" ? viewReviewSetup() : v === "review" ? viewReview() : viewResult();
+  const focus = app.querySelector("[data-autofocus]");
+  if (focus) focus.focus();
+  window.scrollTo(0, 0);
+}
+
+function viewHome() {
+  const total = UNITS.reduce((n, u) => n + studiedCount(u), 0);
+  return `
+  <header class="top">
+    <div><p class="eyebrow">Middle School English · 90 words</p><h1>Izzie 중등 영단어</h1></div>
+    <p class="stats">학습 완료 ${total} / 90</p>
+  </header>
+  <section class="units" aria-label="유닛">
+    ${UNITS.map((u, i) => {
+      const n = studiedCount(u);
+      return `<button class="unit" data-act="unit" data-unit="${u.id}">
+        <span class="num">${i + 1}</span>
+        <span class="title">Unit ${i + 1}. ${esc(u.title)} <span class="muted" style="font-weight:500">${esc(u.en)}</span></span>
+        <span class="bar" aria-hidden="true"><i style="width:${n / 30 * 100}%"></i></span>
+        <span class="stats">단어 ${n} / 30 완료 · 단어 쓰기 최고 ${bestText(u, "word")} · 문장 쓰기 최고 ${bestText(u, "sentence")}</span>
+      </button>`;
+    }).join("")}
+  </section>
+  <section class="panel">
+    <div><p class="eyebrow">Review</p><h2>유닛 리뷰: 단어 쓰기 · 문장 쓰기</h2></div>
+    <div class="reviews">
+      ${UNITS.map((u, i) => `<button class="review-card" data-act="reviewSetup" data-unit="${u.id}">
+        <span class="eyebrow">Review ${i + 1}</span><b>${esc(u.title)}</b><span class="stats">30단어 · 30문장</span></button>`).join("")}
+    </div>
+  </section>
+  <p class="note">한 단어 학습 순서: ① 단어와 뜻 → ② 발음 듣고 따라하기 → ③ 동의어 듣기 → ④ 단어가 들어간 문장 듣기 → ⑤ 문장 듣고 쓰기. 진도는 이 기기에 저장됩니다.</p>`;
+}
+function bestText(u, type) {
+  const b = progress.best[u.id + ":" + type];
+  return b ? `${b.score}/${b.total}` : "–";
+}
+
+function viewUnit() {
+  const u = unitById(state.unit), idx = UNITS.indexOf(u);
+  return `
+  <div class="top"><button class="back" data-act="home">← 처음으로</button><span class="stats">${studiedCount(u)} / 30 완료</span></div>
+  <header><p class="eyebrow">Unit ${idx + 1} · ${esc(u.en)}</p><h1>${esc(u.title)}</h1></header>
+  <section class="panel">
+    <div class="row">
+      <button class="btn primary" data-act="study" data-i="${firstUnstudied(u)}">${studiedCount(u) ? "이어서 학습하기" : "학습 시작"}</button>
+      <button class="btn" data-act="reviewSetup" data-unit="${u.id}">Review ${idx + 1} 하기</button>
+    </div>
+    <p class="muted">단어를 눌러 바로 학습할 수 있어요. 초록색은 문장 쓰기까지 마친 단어입니다.</p>
+    <div class="chips">
+      ${u.words.map((w, i) => `<button class="chip ${progress.studied[key(u, w)] ? "done" : ""}" data-act="study" data-i="${i}">${esc(w.word)}</button>`).join("")}
+    </div>
+  </section>`;
+}
+function firstUnstudied(u) { const i = u.words.findIndex(w => !progress.studied[key(u, w)]); return i < 0 ? 0 : i; }
+
+function viewStudy() {
+  const u = unitById(state.unit), w = u.words[state.i], s = state.step, idx = UNITS.indexOf(u);
+  const tabs = STEPS.map((name, k) => `<button class="step ${k === s ? "cur" : k < s ? "seen" : ""}" data-act="step" data-s="${k}" aria-current="${k === s}"><b>${k + 1}</b>${name}</button>`).join("");
+  let body = "";
+  if (s === 0) body = `
+    <div><p class="pos">${esc(w.pos)}</p><p class="word">${esc(w.word)}</p></div>
+    <p class="meaning">${esc(w.ko)}</p>
+    <div class="row"><button class="btn primary" data-act="say" data-text="${esc(w.word)}">🔊 발음 듣기</button>
+    <button class="btn" data-act="say" data-slow="1" data-text="${esc(w.word)}">🐢 천천히</button></div>`;
+  if (s === 1) body = `
+    <p class="word">${esc(w.word)}</p>
+    <p class="muted">발음을 듣고 소리 내어 3번 따라 말해 보세요.</p>
+    <div class="row"><button class="btn" data-act="say" data-text="${esc(w.word)}">🔊 듣기</button>
+    ${Recognition ? `<button class="btn primary" data-act="listen">🎤 말하고 확인하기</button>` : ""}
+    <button class="btn" data-act="repeat">따라 말했어요</button>
+    <span class="dots" aria-label="따라 말한 횟수 ${state.reps}/3">${[0, 1, 2].map(k => `<span class="dot ${k < state.reps ? "fill" : ""}"></span>`).join("")}</span></div>
+    <div id="mic-result" aria-live="polite"></div>
+    ${Recognition ? "" : `<p class="note">이 브라우저는 음성 인식을 지원하지 않아요. 크롬에서 열면 🎤로 발음을 확인할 수 있어요.</p>`}`;
+  if (s === 2) body = `
+    <p class="eyebrow">Synonym · 비슷한 말</p>
+    <div class="syn"><span class="word">${esc(w.word)}</span><span class="eq">≈</span><span class="s2">${esc(w.syn)}</span></div>
+    <div class="row"><button class="btn primary" data-act="say" data-text="${esc(w.syn)}">🔊 동의어 듣기</button>
+    <button class="btn" data-act="say" data-text="${esc(w.word + ". " + w.syn)}">🔊 둘 다 듣기</button></div>`;
+  if (s === 3) body = `
+    <p class="eyebrow">Example · 단어가 들어간 문장</p>
+    <p class="sentence">${highlight(w)}</p>
+    <p class="ko" ${state.showKo ? "" : "hidden"}>${esc(w.sentKo)}</p>
+    <div class="row"><button class="btn primary" data-act="say" data-text="${esc(w.sent)}">🔊 문장 듣기</button>
+    <button class="btn" data-act="say" data-slow="1" data-text="${esc(w.sent)}">🐢 천천히</button>
+    <button class="btn ${state.showKo ? "on" : ""}" data-act="toggleKo">한국어 뜻</button></div>`;
+  if (s === 4) body = `
+    <p class="eyebrow">Dictation · 듣고 쓰기</p>
+    <p class="ko">${esc(w.sentKo)}</p>
+    <div class="row"><button class="btn primary" data-act="say" data-text="${esc(w.sent)}">🔊 문장 듣기</button>
+    <button class="btn" data-act="say" data-slow="1" data-text="${esc(w.sent)}">🐢 천천히</button>
+    <button class="btn ${state.showHint ? "on" : ""}" data-act="toggleHint">힌트</button></div>
+    <p class="hint" ${state.showHint ? "" : "hidden"}>${esc(hintOf(w.sent))}</p>
+    <label for="write-input" class="muted">들은 문장을 영어로 써 보세요.</label>
+    <textarea id="write-input" rows="2" autocomplete="off" autocapitalize="off" spellcheck="false" data-autofocus>${esc(state.draft || "")}</textarea>
+    <div class="row"><button class="btn primary" data-act="checkWrite">확인</button></div>
+    <div id="write-result" aria-live="polite">${state.writeResult || ""}</div>`;
+  const last = state.i === u.words.length - 1;
+  return `
+  <div class="top"><button class="back" data-act="unit" data-unit="${u.id}">← Unit ${idx + 1} 단어 목록</button>
+  <span class="counter">${state.i + 1} / ${u.words.length}</span></div>
+  <section class="panel">
+    <nav class="steps" aria-label="학습 단계">${tabs}</nav>
+    ${body}
+    <p id="tts-note" class="note" hidden>이 브라우저에서는 소리 재생을 지원하지 않아요. 크롬이나 사파리에서 열어 주세요.</p>
+  </section>
+  <div class="nav">
+    <button class="btn" data-act="prev" ${state.i === 0 && s === 0 ? "disabled" : ""}>← 이전</button>
+    <button class="btn primary" data-act="next">${s < 4 ? "다음 단계 →" : last ? "유닛 완료 ✓" : "다음 단어 →"}</button>
+  </div>`;
+}
+
+function viewReviewSetup() {
+  const u = unitById(state.unit), idx = UNITS.indexOf(u);
+  const t = state.rtype || "word", c = state.rcount || 10;
+  return `
+  <div class="top"><button class="back" data-act="home">← 처음으로</button></div>
+  <header><p class="eyebrow">Review ${idx + 1} · ${esc(u.en)}</p><h1>${esc(u.title)} 리뷰</h1></header>
+  <section class="panel">
+    <h2>무엇을 연습할까요?</h2>
+    <div class="row">
+      <button class="btn ${t === "word" ? "on" : ""}" data-act="rtype" data-v="word">단어 쓰기</button>
+      <button class="btn ${t === "sentence" ? "on" : ""}" data-act="rtype" data-v="sentence">문장 쓰기</button>
+    </div>
+    <p class="muted">${t === "word" ? "한국어 뜻을 보고 발음을 들은 뒤 영어 단어의 철자를 씁니다." : "한국어 해석을 보고 문장을 들은 뒤 영어 문장 전체를 씁니다."}</p>
+    <h2>문항 수</h2>
+    <div class="row">${[10, 20, 30].map(n => `<button class="btn ${c === n ? "on" : ""}" data-act="rcount" data-v="${n}">${n}문항</button>`).join("")}</div>
+    <p class="stats">최고 기록 · 단어 쓰기 ${bestText(u, "word")} · 문장 쓰기 ${bestText(u, "sentence")}</p>
+    <div class="row"><button class="btn primary" data-act="startReview">시작하기</button></div>
+  </section>`;
+}
+
+function startReview(items) {
+  const u = unitById(state.unit);
+  const t = state.rtype || "word", c = state.rcount || 10;
+  state.queue = items || shuffle(u.words).slice(0, c);
+  state.q = 0; state.answers = []; state.checked = null; state.view = "review";
+  render();
+  autoSpeak();
+}
+function autoSpeak() {
+  const w = state.queue[state.q];
+  setTimeout(() => speak(state.rtype === "sentence" ? w.sent : w.word), 250);
+}
+
+function viewReview() {
+  const u = unitById(state.unit), w = state.queue[state.q], t = state.rtype || "word";
+  const ck = state.checked;
+  const prompt = t === "word"
+    ? `<p class="pos">${esc(w.pos)}</p><p class="meaning" style="font-size:1.8rem">${esc(w.ko)}</p>`
+    : `<p class="meaning">${esc(w.sentKo)}</p>`;
+  let fb = "";
+  if (ck) {
+    fb = ck.ok
+      ? `<div class="feedback good"><b>정답이에요!</b><span class="answer">${esc(t === "word" ? w.word : w.sent)}</span></div>`
+      : `<div class="feedback bad"><b>다시 확인해 보세요.</b><span class="answer">${t === "word" ? esc(w.word) : ck.html}</span>
+         ${t === "sentence" ? `<span class="note">밑줄 친 단어를 놓쳤거나 틀렸어요.</span>` : ""}</div>`;
+  }
+  const tag = t === "word"
+    ? `<input type="text" id="review-input" autocomplete="off" autocapitalize="off" spellcheck="false" ${ck ? "disabled" : ""} value="${esc(ck ? ck.typed : "")}" data-autofocus>`
+    : `<textarea id="review-input" rows="2" autocomplete="off" autocapitalize="off" spellcheck="false" ${ck ? "disabled" : ""} data-autofocus>${esc(ck ? ck.typed : "")}</textarea>`;
+  return `
+  <div class="top"><button class="back" data-act="reviewSetup" data-unit="${u.id}">← 그만하기</button>
+  <span class="counter">${state.q + 1} / ${state.queue.length} · 정답 ${state.answers.filter(a => a.ok).length}</span></div>
+  <div class="bar" aria-hidden="true"><i style="width:${state.q / state.queue.length * 100}%"></i></div>
+  <section class="panel">
+    <p class="eyebrow">${t === "word" ? "단어 쓰기" : "문장 쓰기"}</p>
+    ${prompt}
+    <div class="row"><button class="btn" data-act="say" data-text="${esc(t === "word" ? w.word : w.sent)}">🔊 다시 듣기</button>
+    <button class="btn" data-act="say" data-slow="1" data-text="${esc(t === "word" ? w.word : w.sent)}">🐢 천천히</button></div>
+    <label for="review-input" class="muted">${t === "word" ? "영어 단어를 쓰세요." : "들은 영어 문장을 쓰세요."}</label>
+    ${tag}
+    ${fb}
+    <div class="row">${ck
+      ? `<button class="btn primary" data-act="nextQ" data-autofocus>${state.q === state.queue.length - 1 ? "결과 보기" : "다음 문제 →"}</button>`
+      : `<button class="btn primary" data-act="checkQ">확인</button><button class="btn" data-act="skipQ">모르겠어요</button>`}</div>
+    <p id="tts-note" class="note" hidden>이 브라우저에서는 소리 재생을 지원하지 않아요.</p>
+  </section>`;
+}
+
+function viewResult() {
+  const u = unitById(state.unit), t = state.rtype || "word";
+  const score = state.answers.filter(a => a.ok).length, total = state.answers.length;
+  const wrong = state.answers.filter(a => !a.ok);
+  return `
+  <div class="top"><button class="back" data-act="home">← 처음으로</button></div>
+  <section class="panel">
+    <p class="eyebrow">${esc(u.title)} · ${t === "word" ? "단어 쓰기" : "문장 쓰기"} 결과</p>
+    <p class="score">${score} / ${total}</p>
+    <p class="muted">${score === total ? "모두 맞혔어요. 훌륭해요!" : `틀린 ${wrong.length}문항을 다시 연습해 보세요.`}</p>
+    <div class="row">
+      ${wrong.length ? `<button class="btn primary" data-act="retryWrong">틀린 문제만 다시</button>` : ""}
+      <button class="btn" data-act="startReview">새로 섞어서 다시</button>
+      <button class="btn" data-act="unit" data-unit="${u.id}">단어 다시 학습</button>
+    </div>
+    ${wrong.length ? `<ul class="wrong-list">${wrong.map(a => `<li>
+      <span><b>${esc(a.w.word)}</b> <span class="muted">${esc(a.w.ko)}</span></span>
+      ${t === "sentence" ? `<span>${esc(a.w.sent)}</span>` : ""}
+      <span class="yours">내 답: ${a.typed ? esc(a.typed) : "(빈칸)"}</span></li>`).join("")}</ul>` : ""}
+  </section>`;
+}
+
+/* ---------- actions ---------- */
+function gotoStudy(i) { Object.assign(state, { view: "study", i, step: 0, reps: 0, showKo: false, showHint: false, draft: "", writeResult: "" }); render(); }
+function setStep(s) { Object.assign(state, { step: s, reps: 0, showKo: false, showHint: false, draft: "", writeResult: "" }); render(); }
+
+function checkWrite() {
+  const u = unitById(state.unit), w = u.words[state.i];
+  const typed = document.getElementById("write-input").value;
+  state.draft = typed;
+  if (!typed.trim()) return;
+  const r = compare(w.sent, typed);
+  if (r.exact) {
+    progress.studied[key(u, w)] = true; save();
+    state.writeResult = `<div class="feedback good"><b>완벽해요! 이 단어 학습을 마쳤어요.</b><span class="answer">${esc(w.sent)}</span></div>`;
+  } else {
+    state.writeResult = `<div class="feedback bad"><b>거의 다 왔어요. 다시 들어 보고 고쳐 써 보세요.</b><span class="answer">${r.html}</span><span class="note">밑줄 친 단어를 확인하세요.</span></div>`;
+  }
+  render();
+}
+
+function checkQ(skip) {
+  const w = state.queue[state.q], t = state.rtype || "word";
+  const typed = skip ? "" : document.getElementById("review-input").value;
+  if (!skip && !typed.trim()) return;
+  let ok, html = "";
+  if (t === "word") ok = norm(typed) === norm(w.word);
+  else { const r = compare(w.sent, typed); ok = r.exact; html = r.html; }
+  state.checked = { ok, typed, html };
+  state.answers.push({ w, ok, typed });
+  render();
+  if (!ok) speak(t === "word" ? w.word : w.sent);
+}
+function nextQ() {
+  if (state.q < state.queue.length - 1) { state.q++; state.checked = null; render(); autoSpeak(); return; }
+  const u = unitById(state.unit), t = state.rtype || "word";
+  const score = state.answers.filter(a => a.ok).length, total = state.answers.length;
+  const k = u.id + ":" + t, b = progress.best[k];
+  if (!b || score / total > b.score / b.total || (score / total === b.score / b.total && total > b.total)) { progress.best[k] = { score, total }; save(); }
+  state.view = "result"; render();
+}
+
+function listen() {
+  const u = unitById(state.unit), w = u.words[state.i];
+  const out = document.getElementById("mic-result");
+  let rec;
+  try { rec = new Recognition(); } catch (e) { out.innerHTML = `<p class="note">음성 인식을 시작할 수 없어요. "따라 말했어요" 버튼을 사용하세요.</p>`; return; }
+  rec.lang = "en-US"; rec.maxAlternatives = 5; rec.interimResults = false;
+  out.innerHTML = `<p class="muted">🎤 듣고 있어요… "${esc(w.word)}" 라고 말해 보세요.</p>`;
+  rec.onresult = e => {
+    const alts = Array.from(e.results[0]).map(a => a.transcript);
+    const ok = alts.some(a => norm(a).split(" ").includes(norm(w.word)));
+    if (ok) state.reps = Math.min(3, state.reps + 1);
+    const html = ok
+      ? `<div class="feedback good"><b>좋아요! 정확하게 들렸어요.</b></div>`
+      : `<div class="feedback bad"><b>이렇게 들렸어요: "${esc(alts[0] || "")}"</b><span class="note">발음을 다시 듣고 한 번 더 말해 보세요.</span></div>`;
+    render();
+    document.getElementById("mic-result").innerHTML = html;
+  };
+  rec.onerror = e => {
+    out.innerHTML = e.error === "not-allowed" || e.error === "service-not-allowed"
+      ? `<p class="note">마이크를 사용할 수 없어요. 브라우저에서 마이크를 허용하거나 "따라 말했어요" 버튼을 사용하세요.</p>`
+      : e.error === "no-speech" ? `<p class="note">소리가 들리지 않았어요. 다시 눌러 말해 보세요.</p>`
+      : `<p class="note">음성 인식 중 문제가 생겼어요 (${esc(e.error)}). "따라 말했어요" 버튼을 사용하세요.</p>`;
+  };
+  try { rec.start(); } catch (e) {}
+}
+
+app.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const act = b.dataset.act;
+  if (act === "home") { state = { view: "home" }; render(); }
+  else if (act === "unit") { state = { view: "unit", unit: b.dataset.unit }; render(); }
+  else if (act === "study") gotoStudy(+b.dataset.i);
+  else if (act === "step") setStep(+b.dataset.s);
+  else if (act === "say") speak(b.dataset.text, b.dataset.slow === "1");
+  else if (act === "repeat") { state.reps = Math.min(3, state.reps + 1); render(); speak(unitById(state.unit).words[state.i].word); }
+  else if (act === "listen") listen();
+  else if (act === "toggleKo") { state.showKo = !state.showKo; render(); }
+  else if (act === "toggleHint") { state.draft = document.getElementById("write-input").value; state.showHint = !state.showHint; render(); }
+  else if (act === "checkWrite") checkWrite();
+  else if (act === "next") {
+    const u = unitById(state.unit);
+    if (state.step < 4) setStep(state.step + 1);
+    else if (state.i < u.words.length - 1) gotoStudy(state.i + 1);
+    else { state = { view: "unit", unit: u.id }; render(); }
+  }
+  else if (act === "prev") {
+    if (state.step > 0) setStep(state.step - 1);
+    else if (state.i > 0) { gotoStudy(state.i - 1); setStep(4); }
+  }
+  else if (act === "reviewSetup") { state = { view: "reviewSetup", unit: b.dataset.unit, rtype: state.rtype, rcount: state.rcount }; render(); }
+  else if (act === "rtype") { state.rtype = b.dataset.v; render(); }
+  else if (act === "rcount") { state.rcount = +b.dataset.v; render(); }
+  else if (act === "startReview") startReview();
+  else if (act === "checkQ") checkQ(false);
+  else if (act === "skipQ") checkQ(true);
+  else if (act === "nextQ") nextQ();
+  else if (act === "retryWrong") startReview(shuffle(state.answers.filter(a => !a.ok).map(a => a.w)));
+});
+app.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+  if (e.target.id === "write-input") { e.preventDefault(); checkWrite(); }
+  else if (e.target.id === "review-input") { e.preventDefault(); checkQ(false); }
+});
+
+render();
+</script>
+</body>
+</html>
