@@ -268,7 +268,37 @@ function pickVoice() {
        || vs.find(v => /en[-_]US/i.test(v.lang)) || vs[0] || null;
 }
 if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+/* recorded mp3s in audio/ play first; the browser voice is the fallback */
+const AUDIO = {};
+UNITS.forEach(u => u.words.forEach(w => {
+  const base = "audio/" + u.id + "-" + w.word;
+  AUDIO[w.word] = AUDIO[w.word] || base + "-word.mp3";
+  AUDIO[w.syn] = AUDIO[w.syn] || base + "-syn.mp3";
+  AUDIO[w.sent] = base + "-sent.mp3";
+}));
+const player = new Audio();
+let playToken = 0;
+function stopSound() {
+  playToken++;
+  player.pause();
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
 function speak(text, slow) {
+  stopSound();
+  const parts = AUDIO[text] ? [text] : text.split(". ");
+  if (!parts.every(p => AUDIO[p])) { ttsSpeak(text, slow); return; }
+  const token = playToken;
+  const playAt = k => {
+    if (token !== playToken || k >= parts.length) return;
+    player.src = AUDIO[parts[k]];
+    player.playbackRate = slow ? 0.7 : 1;
+    player.onended = () => setTimeout(() => playAt(k + 1), 300);
+    player.onerror = () => { if (token === playToken) ttsSpeak(parts.slice(k).join(". "), slow); };
+    player.play().catch(err => { if (err.name !== "AbortError" && token === playToken) ttsSpeak(parts.slice(k).join(". "), slow); });
+  };
+  playAt(0);
+}
+function ttsSpeak(text, slow) {
   if (!("speechSynthesis" in window)) { toastNoTTS(); return; }
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
@@ -315,7 +345,7 @@ function compare(expected, typed) {
 
 /* ---------- views ---------- */
 function render() {
-  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  stopSound();
   const v = state.view;
   app.innerHTML = v === "home" ? viewHome() : v === "unit" ? viewUnit() : v === "study" ? viewStudy()
     : v === "reviewSetup" ? viewReviewSetup() : v === "review" ? viewReview() : viewResult();
