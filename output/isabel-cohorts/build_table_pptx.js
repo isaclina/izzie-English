@@ -30,17 +30,17 @@ const s = pres.addSlide({ masterName: 'Content', sectionTitle: '2023 중1 반' }
 s.addText('2023 중1 반 시험 수준별 총점 성장 (2023–2025)', { placeholder: 'title' });
 const H = t => ({ text: t, options: { bold: true, color: C.background1, fill: { color: C.text2 }, align: 'center', valign: 'middle' } });
 const c = (t, o = {}) => ({ text: String(t), options: { align: 'center', valign: 'middle', ...o } });
-const tbl = [[H('학생'), H('중1 첫 시험'), H('고1 모의고사\n평균'), H('고2 모의고사\n평균'), H('고3 모의고사\n평균'), H('첫 시험 →\n고3 평균')]];
+const tbl = [[H('학생'), H('중1 첫 시험'), H('고1 모의고사\n평균'), H('고2 모의고사\n평균'), H('고3 모의고사\n평균'), H('첫 시험 →\n고3 평균'), H('진학 고등학교')]];
 studs.forEach(st => {
   const g3 = gavg(st, 3), d = g3 - first(st);
   tbl.push([c(AN[st], { bold: true }), c(first(st)), c(r1(gavg(st, 1))), c(r1(gavg(st, 2))), c(r1(g3), { bold: true }),
-    c('+' + r1(d), { bold: true, color: C.accent1 })]);
+    c('+' + r1(d), { bold: true, color: C.accent1 }), c(`${String.fromCharCode(65 + studs.indexOf(st))} 고등학교`)]);
 });
 const F = { fill: { color: C.background2 }, bold: true };
 const fa = avg(studs.map(first));
 tbl.push([c('반 평균', F), c(r1(fa), F), c(r1(allg(1)), F), c(r1(allg(2)), F), c(r1(allg(3)), F),
-  c('+' + r1(Number(r1(allg(3))) - Number(r1(fa))), { ...F, color: C.accent1 })]);
-s.addTable(tbl, { x: 0.6, y: 1.35, w: 12.1, colW: [1.9, 1.9, 2.1, 2.1, 2.1, 2.0], rowH: [0.75, 0.6, 0.6, 0.6, 0.6, 0.6],
+  c('+' + r1(Number(r1(allg(3))) - Number(r1(fa))), { ...F, color: C.accent1 }), c('', F)]);
+s.addTable(tbl, { x: 0.6, y: 1.35, w: 12.1, colW: [1.5, 1.6, 1.8, 1.8, 1.8, 1.7, 1.9], rowH: [0.75, 0.6, 0.6, 0.6, 0.6, 0.6],
   fontSize: 16, color: C.text1, border: { type: 'solid', pt: 0.75, color: 'C9D6D2' }, fill: { color: C.background1 }, objectName: 'growth-table' });
 s.addText([
   { text: `시험이 고1 → 고2 → 고3으로 어려워지는데도 반 평균은 ${r1(fa)} → ${r1(allg(1))} → ${r1(allg(2))} → ${r1(allg(3))}점으로 계속 올랐습니다`, options: { bullet: true, breakLine: true, paraSpaceAfter: 6 } },
