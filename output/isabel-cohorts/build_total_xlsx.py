@@ -27,6 +27,8 @@ def lvl(r):
     return GN[0]
 allex = sorted({(r['grade'], r['seq'], lvl(r)) for r in rows}, key=lambda e: (GO.index(e[0]), e[1]))
 GROUPS = [(g, [(e[0], e[1]) for e in allex if e[2] == g]) for g in GN if any(e[2] == g for e in allex)]
+HAS_CSAT = any('수능' in r['level'] for r in rows)
+if not HAS_CSAT: GROUPS = [('고3 모의고사' if g == GN[2] else g, ex) for g, ex in GROUPS]
 
 F = 'Arial'
 BLUE = Font(name=F, color='0000FF'); BLK = Font(name=F); GRN = Font(name=F, color='008000')
@@ -81,7 +83,7 @@ for gi, (g, ex) in enumerate(GROUPS):
              ('A', 1): '고2 모의고사는 고1보다 어렵지만 첫 시험부터 4명 모두 2등급이었고, 4번 내내 반 평균 81점 이상을 유지했습니다.',
              ('A', 2): '고3 모의고사와 실제 수능 문제에서도 반 평균이 올랐습니다. 나민하는 수능 날이 기말고사 기간이라 응시하지 않았습니다.',
              ('B', 1): '고2 모의고사로 바뀐 첫 시험부터 반 평균 86점(2등급)이었고, 중3 1차에는 92점으로 4명 모두 1~2등급이었습니다.',
-             ('B', 2): '고3 모의고사는 중3 3차 1회입니다. 구성관·송지효 100점 만점(1등급), 신준섭 87점·박주연 82점(2등급)으로 4명 모두 2등급 이상입니다. 4차 고3 모의고사는 성적표에 아직 기록이 없습니다.',
+             ('B', 2): '고3 모의고사는 중3 3차 1회입니다. 구성관·송지효 100점 만점(1등급), 신준섭 87점·박주연 82점(2등급)으로 4명 모두 2등급 이상입니다. 4차(2026학년도 수능)는 난이도가 매우 높았던 "불수능"이라 비교에서 제외했습니다.',
              ('C', 1): '고2 모의고사는 아직 1회(중2 3차)뿐입니다. 이서연 반은 현재 중2라 고3 모의고사는 아직 보지 않았습니다.'}.get((CO, gi))
     if extra: lines.append('■ ' + extra)
     r = 3
