@@ -1,0 +1,354 @@
+<style>
+.iz{display:flex;flex-direction:column;gap:var(--cds-gap-xl);font-family:var(--font-anthropic-sans)}
+.iz-head h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0;text-wrap:balance}
+.iz-head p{margin:var(--cds-gap-xs) 0 0;color:var(--color-fg-muted);max-width:65ch}
+.iz-sec{display:flex;flex-direction:column;gap:var(--cds-gap-md)}
+.iz-sec>h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.iz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--cds-gap-md)}
+.iz-grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:var(--cds-gap-md)}
+.iz-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-sm);min-width:0}
+.iz-card h3{margin:0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)}
+.iz-note{margin:0;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);max-width:70ch}
+.iz-chart{position:relative;min-height:280px}
+.iz-mini{position:relative;min-height:170px}
+.iz-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.iz-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.iz-tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);white-space:nowrap;z-index:2}
+.iz-tip .t{color:var(--cds-text-secondary)}
+.iz-wrap{overflow-x:auto}
+.iz table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:var(--cds-font-size-body)}
+.iz th,.iz td{padding:6px 8px;border-bottom:1px solid var(--color-border-line);text-align:right;white-space:nowrap}
+.iz th:first-child,.iz td:first-child{text-align:left}
+.iz th{color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);font-size:var(--cds-font-size-caption)}
+.iz td.l{text-align:left;color:var(--color-fg-muted)}
+.iz .up{color:var(--color-ok)} .iz .down{color:var(--color-bad)}
+.iz-pending{border-style:dashed}
+.iz svg text{font-size:var(--cds-font-size-caption);fill:var(--color-fg-muted)}
+[data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+[data-dash-source-state=empty]{color:transparent}
+.iz-fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:inherit;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.iz-fail i{width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+</style>
+
+<div class="iz">
+  <header class="iz-head" id="top">
+    <h1>2020 중1 상위 4명, 중3까지의 영어 성적</h1>
+    <p>Metta 영어 전문학원 · 이사벨 반 김건희, 안도후, 안동휘, 나민하 (2020 1M-A → 2021 2M-A → 2022 3M-A). 네 명 모두 중1 첫 고1 모의고사 4~5등급에서 시작해 중2부터는 고2 모의고사에서도 2등급 안팎을 유지했습니다. 듣기는 중1부터 거의 만점이라 점수 차이는 대부분 독해에서 납니다.</p>
+  </header>
+
+  <section class="iz-sec" id="summary">
+    <h2>학생별 총점 변화</h2>
+    <div class="iz-card">
+      <p class="iz-note">중1 첫 시험(고1 모의고사)과 각 학년 마지막 시험, 중3 마지막으로 응시한 시험의 총점. 나민하는 수능 날이 기말고사 기간이라 중3 3차(고3 모의고사)가 마지막입니다.</p>
+      <div class="iz-wrap">
+        <table data-source="growth" data-row-key="student">
+          <thead><tr>
+            <th data-field="student">학생</th>
+            <th data-field="g1_first">중1 1차</th>
+            <th data-field="g1_last">중1 5차</th>
+            <th data-field="g2_last">중2 4차</th>
+            <th data-field="g3_last_exam">중3 마지막 시험</th>
+            <th data-field="g3_last">총점</th>
+            <th data-field="total_change">중1 1차 대비</th>
+          </tr></thead>
+          <tbody id="growth-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="iz-sec" id="g1">
+    <h2>중1 (2020, 1M-A) · 고1 모의고사</h2>
+    <div class="iz-grid">
+      <div class="iz-card">
+        <h3>총점 추이</h3>
+        <p class="iz-note">점선은 절대평가 등급 기준(90·80·70·60점). 1차에서 4~5등급이던 네 명이 4차부터 모두 3등급 이상을 유지했습니다. 김건희는 4차에 1등급을 받았다가 5차에 3등급으로 내려왔고, 안도후는 5회 내내 점수를 올렸습니다.</p>
+        <div class="iz-legend" data-source="mock" id="lg-g1"></div>
+        <div class="iz-chart" id="ch-g1" data-source="mock"></div>
+      </div>
+      <div class="iz-card">
+        <h3>듣기 · 독해 맞은 개수</h3>
+        <p class="iz-note">듣기는 17문항, 독해는 28문항. 1차는 개수 기록이 없어 2~5차만 표시합니다. 듣기는 처음부터 15~17개로 거의 만점이고, 차이는 독해에서 납니다. 김건희의 4차 1등급은 독해가 크게 늘어난 결과였고, 5차에는 독해가 다시 줄었습니다.</p>
+        <div class="iz-legend" data-source="mock"><span><i class="iz-sw" id="sw-l1"></i>듣기</span><span><i class="iz-sw" id="sw-r1"></i>독해</span></div>
+        <div class="iz-grid4" id="mini-g1" data-source="mock"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="iz-sec" id="g2">
+    <h2>중2 (2021, 2M)</h2>
+    <div class="iz-grid">
+      <div class="iz-card">
+        <h3>총점 추이</h3>
+        <p class="iz-note">2차에서 네 명 모두 87점 이상(김건희·안도후·안동휘 1등급)을 받았습니다. 3·4차는 고2 모의고사로 난도가 올라 점수가 내려왔지만 대부분 2등급을 지켰습니다. 나민하는 4차에 넷 중 가장 높은 점수를 받았습니다. 1·2차는 성적표에 시험 수준이 적혀 있지 않습니다.</p>
+        <div class="iz-legend" data-source="mock" id="lg-g2"></div>
+        <div class="iz-chart" id="ch-g2" data-source="mock"></div>
+      </div>
+      <div class="iz-card">
+        <h3>듣기 · 독해 맞은 개수</h3>
+        <p class="iz-note">듣기는 네 번 모두 16~17개입니다. 독해는 2차에 23~26개로 가장 높았고, 고2 모의고사에서는 학생마다 갈립니다. 안도후는 독해가 25 → 21 → 19개로 줄었고, 나민하는 23~24개를 유지했습니다.</p>
+        <div class="iz-legend" data-source="mock"><span><i class="iz-sw" id="sw-l2"></i>듣기</span><span><i class="iz-sw" id="sw-r2"></i>독해</span></div>
+        <div class="iz-grid4" id="mini-g2" data-source="mock"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="iz-sec" id="g3">
+    <h2>중3 (2022, 3M-A) · 고2·고3 모의고사와 수능</h2>
+    <div class="iz-grid">
+      <div class="iz-card">
+        <h3>총점 추이</h3>
+        <p class="iz-note">시험이 고2 → 고3 → 수능으로 어려워졌는데도 김건희와 안도후는 점수를 계속 올렸고, 안동휘는 1등급(91·93점)을 두 번 받았습니다. 4차는 2023학년도 수능 문제(2022년 11월 시행).</p>
+        <div class="iz-legend" data-source="mock" id="lg-g3"></div>
+        <div class="iz-chart" id="ch-g3" data-source="mock"></div>
+      </div>
+      <div class="iz-card">
+        <h3>듣기 · 독해 맞은 개수</h3>
+        <p class="iz-note">고2 → 고3 → 수능으로 갈수록 독해 개수가 늘었습니다. 김건희·안도후·안동휘는 고3 수준에서도 듣기 만점, 독해 23~25개를 유지했습니다. 나민하는 1차 듣기가 14개로 평소보다 낮았습니다.</p>
+        <div class="iz-legend" data-source="mock"><span><i class="iz-sw" id="sw-l3"></i>듣기</span><span><i class="iz-sw" id="sw-r3"></i>독해</span></div>
+        <div class="iz-grid4" id="mini-g3" data-source="mock"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="iz-sec" id="naesin">
+    <h2>중3 학교 내신 (2022)</h2>
+    <div class="iz-grid">
+      <div class="iz-card">
+        <h3>내신 점수 추이</h3>
+        <p class="iz-note">네 명 모두 내신은 거의 매번 95점 이상입니다. 안동휘는 1학기 중간 이후 크게 올랐고, 안도후는 2학기 두 번 모두 100점, 김건희는 100점에서 조금씩 내려왔습니다. 나민하의 2학기 기말은 성적표 작성 당시 시험 기간이라 빠져 있습니다. 중1·중2 내신은 받은 사진에 없습니다.</p>
+        <div class="iz-legend" data-source="naesin" id="lg-n"></div>
+        <div class="iz-chart" id="ch-n" data-source="naesin"></div>
+      </div>
+      <div class="iz-card">
+        <h3>내신 점수표</h3>
+        <p class="iz-note">평균은 응시한 시험만으로 계산했습니다.</p>
+        <div class="iz-wrap">
+          <table data-source="naesinSummary" data-row-key="student">
+            <thead><tr>
+              <th data-field="student">학생</th>
+              <th data-field="s1_mid">1학기 중간</th>
+              <th data-field="s1_fin">1학기 기말</th>
+              <th data-field="s2_mid">2학기 중간</th>
+              <th data-field="s2_fin">2학기 기말</th>
+              <th data-field="avg">평균</th>
+            </tr></thead>
+            <tbody id="naesin-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="iz-sec" id="all">
+    <h2>전체 모의고사 성적표</h2>
+    <div class="iz-card">
+      <p class="iz-note">성적표 사진에서 옮긴 원자료입니다. 빈칸은 성적표에 기록이 없는 항목입니다.</p>
+      <div class="iz-wrap">
+        <table data-source="mock" data-row-key="id">
+          <thead><tr>
+            <th data-field="student">학생</th>
+            <th data-field="grade">학년</th>
+            <th data-field="exam">회차</th>
+            <th data-field="level">시험</th>
+            <th data-field="listening">듣기</th>
+            <th data-field="reading">독해</th>
+            <th data-field="total">총점</th>
+            <th data-field="tier">등급</th>
+            <th data-field="note">비고</th>
+          </tr></thead>
+          <tbody id="all-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  const STUDENTS = ['김건희', '안도후', '안동휘', '나민하'];
+  const has = v => v !== null && v !== undefined && v !== '';
+  const show = v => has(v) ? String(v) : '—';
+
+  dash.calc('growth', {
+    inputs: ['mock'],
+    title: '학생별 총점 변화',
+    description: '중1 1차·마지막, 중2 마지막, 중3 마지막 응시 시험 총점과 중1 1차 대비 차이.',
+    fn: (mock) => ['김건희', '안도후', '안동휘', '나민하'].map(s => {
+      const r = mock.filter(x => x.student === s && x.total !== null && x.total !== undefined && x.total !== '')
+        .map(x => ({ ...x, total: Number(x.total), seq: Number(x.seq) }))
+        .sort((a, b) => a.seq - b.seq);
+      const g1 = r.filter(x => x.grade === '중1'), g2 = r.filter(x => x.grade === '중2'), g3 = r.filter(x => x.grade === '중3');
+      const f = g1[0], l1 = g1[g1.length - 1], l3 = g3[g3.length - 1];
+      return { student: s, g1_first: f.total, g1_last: l1.total, g1_change: l1.total - f.total,
+        g2_last: g2.length ? g2[g2.length - 1].total : null, g3_last_exam: l3.exam + ' ' + l3.level, g3_last: l3.total, total_change: l3.total - f.total };
+    })
+  });
+
+  dash.calc('naesinSummary', {
+    inputs: ['naesin'],
+    title: '중3 내신 점수표',
+    description: '학생별 중3 1·2학기 중간·기말 점수와 응시한 시험의 평균.',
+    fn: (naesin) => ['김건희', '안도후', '안동휘', '나민하'].map(s => {
+      const r = naesin.filter(x => x.student === s);
+      const get = (sem, t) => { const x = r.find(y => y.semester === sem && y.test === t); return x && x.score !== null && x.score !== '' ? Number(x.score) : null; };
+      const vals = r.map(x => x.score).filter(v => v !== null && v !== '').map(Number);
+      return { student: s, s1_mid: get('1학기', '중간'), s1_fin: get('1학기', '기말'), s2_mid: get('2학기', '중간'), s2_fin: get('2학기', '기말'),
+        avg: Math.round(vals.reduce((a, b) => a + b, 0) / vals.length * 10) / 10 };
+    })
+  });
+
+  function fail(el, st) {
+    el.innerHTML = '';
+    if (st === 'error') { const d = document.createElement('div'); d.className = 'iz-fail'; d.innerHTML = '<i></i>'; d.append('Failed to load'); el.append(d); }
+    else el.classList.add('dash-skeleton');
+  }
+
+  function legend(el, colors) {
+    el.innerHTML = '';
+    STUDENTS.forEach((s, i) => {
+      const sp = document.createElement('span'); const sw = document.createElement('i');
+      sw.className = 'iz-sw'; sw.style.background = colors[i]; sp.append(sw, s); el.append(sp);
+    });
+  }
+
+  // cfg: xs [[line1,line2]], series [{name,color,vals}], y [min,max], ticks, refs [{y,label}], h
+  function lineChart(el, cfg) {
+    el.classList.remove('dash-skeleton');
+    el.innerHTML = '';
+    const W = Math.max(el.clientWidth, 200), H = cfg.h;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    const meas = t => { const n = svg.append('text').text(t); const w = n.node().getComputedTextLength(); n.remove(); return w; };
+    const ml = d3.max(cfg.ticks, t => meas(String(t))) + 10;
+    const mr = d3.max((cfg.refs || []).map(r => meas(r.label)).concat([0])) + 10;
+    const mt = 10, mb = d3.max(cfg.xs, l => l.length) > 1 ? 38 : 24;
+    const x = d3.scalePoint().domain(d3.range(cfg.xs.length)).range([ml, W - mr]).padding(0.35);
+    const y = d3.scaleLinear().domain(cfg.y).range([H - mb, mt]);
+    const g = svg.append('g');
+    cfg.ticks.forEach(t => {
+      g.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', 'var(--cds-chart-grid)').attr('stroke-width', 1);
+      g.append('text').attr('x', ml - 6).attr('y', y(t)).attr('dy', '0.32em').attr('text-anchor', 'end').text(t);
+    });
+    (cfg.refs || []).forEach(r => {
+      g.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', y(r.y)).attr('y2', y(r.y)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+      g.append('text').attr('x', W - mr + 4).attr('y', y(r.y)).attr('dy', '0.32em').text(r.label);
+    });
+    g.append('line').attr('x1', ml).attr('x2', W - mr).attr('y1', H - mb).attr('y2', H - mb).attr('stroke', 'var(--cds-chart-axis)');
+    cfg.xs.forEach((lines, i) => lines.forEach((t, k) => g.append('text').attr('x', x(i)).attr('y', H - mb + 15 + k * 14).attr('text-anchor', 'middle').text(t)));
+    const rule = g.append('line').attr('y1', mt).attr('y2', H - mb).attr('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+    cfg.series.forEach(s => {
+      const pts = s.vals.map((v, i) => ({ i, v }));
+      g.append('path').datum(pts).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', 2)
+        .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+        .attr('d', d3.line().defined(d => has(d.v)).x(d => x(d.i)).y(d => y(d.v)));
+      g.selectAll(null).data(pts.filter(d => has(d.v))).join('circle').attr('cx', d => x(d.i)).attr('cy', d => y(d.v)).attr('r', 3.5).attr('fill', s.color);
+    });
+    const tip = d3.select(el).append('div').attr('class', 'iz-tip').style('opacity', 0);
+    svg.append('rect').attr('x', ml).attr('y', mt).attr('width', W - mr - ml).attr('height', H - mb - mt).attr('fill', 'transparent')
+      .on('mousemove', ev => {
+        const [mx] = d3.pointer(ev);
+        const i = d3.leastIndex(d3.range(cfg.xs.length), j => Math.abs(x(j) - mx));
+        rule.attr('x1', x(i)).attr('x2', x(i)).attr('opacity', 1);
+        tip.html('');
+        tip.append('div').attr('class', 't').text(cfg.xs[i].join(' · '));
+        cfg.series.forEach(s => {
+          const row = tip.append('div');
+          if (cfg.series.length > 1) row.append('i').attr('class', 'iz-sw').style('background', s.color);
+          row.append('span').text(`${s.name} ${has(s.vals[i]) ? s.vals[i] + (cfg.unit || '') : '—'}`);
+        });
+        const tw = tip.node().offsetWidth;
+        tip.style('left', Math.max(0, Math.min(W - tw, x(i) + 12)) + 'px').style('top', mt + 'px').style('opacity', 1);
+      })
+      .on('mouseleave', () => { rule.attr('opacity', 0); tip.style('opacity', 0); });
+  }
+
+  const tierRefs = [{ y: 90, label: '1등급' }, { y: 80, label: '2등급' }, { y: 70, label: '3등급' }, { y: 60, label: '4등급' }];
+  const shortLevel = l => l.replace('모의고사', '').replace('2023학년도 ', '').trim();
+  const xLab = r => [r.exam, shortLevel(r.level)].filter(Boolean);
+
+  function totals(el, lg, rows, grade) {
+    const mine = rows.filter(r => r.grade === grade);
+    const seqs = [...new Set(mine.map(r => Number(r.seq)))].sort((a, b) => a - b);
+    const xs = seqs.map(q => { const r = mine.find(m => Number(m.seq) === q); return xLab(r); });
+    legend(lg, dash.colors);
+    lineChart(el, {
+      xs, h: 280, y: [50, 100], ticks: [50, 60, 70, 80, 90, 100], refs: tierRefs, unit: '점',
+      series: STUDENTS.map((s, i) => ({ name: s, color: dash.colors[i], vals: seqs.map(q => { const r = mine.find(m => m.student === s && Number(m.seq) === q); return r && has(r.total) ? Number(r.total) : null; }) }))
+    });
+  }
+
+  function minis(box, rows, grade, lc, rc) {
+    box.classList.remove('dash-skeleton');
+    box.innerHTML = '';
+    STUDENTS.forEach(s => {
+      const mine = rows.filter(r => r.grade === grade && r.student === s && has(r.listening)).sort((a, b) => a.seq - b.seq);
+      const wrap = document.createElement('div');
+      const h = document.createElement('div'); h.className = 'iz-note'; h.textContent = s;
+      const c = document.createElement('div'); c.className = 'iz-mini';
+      wrap.append(h, c); box.append(wrap);
+      lineChart(c, {
+        xs: mine.map(xLab), h: 170, y: [0, 28], ticks: [0, 10, 17, 28], unit: '개',
+        series: [{ name: '듣기', color: lc, vals: mine.map(r => Number(r.listening)) }, { name: '독해', color: rc, vals: mine.map(r => Number(r.reading)) }]
+      });
+    });
+  }
+
+  function cell(tr, v, cls) { const td = document.createElement('td'); td.textContent = v; if (cls) td.className = cls; tr.append(td); }
+  const signed = v => has(v) ? (v > 0 ? '+' + v : String(v)) : '—';
+
+  dash.onData(() => {
+    const m = dash.data('mock'), n = dash.data('naesin'), gr = dash.data('growth'), ns = dash.data('naesinSummary');
+    const lc = dash.colors[4], rc = dash.colors[5];
+    ['sw-l1', 'sw-l2', 'sw-l3'].forEach(id => document.getElementById(id).style.background = lc);
+    ['sw-r1', 'sw-r2', 'sw-r3'].forEach(id => document.getElementById(id).style.background = rc);
+
+    const chG1 = document.getElementById('ch-g1'), chG2 = document.getElementById('ch-g2'), chG3 = document.getElementById('ch-g3');
+    const mG1 = document.getElementById('mini-g1'), mG2 = document.getElementById('mini-g2'), mG3 = document.getElementById('mini-g3');
+    const allB = document.getElementById('all-body');
+    if (m.status === 'ok') {
+      totals(chG1, document.getElementById('lg-g1'), m.data, '중1');
+      totals(chG2, document.getElementById('lg-g2'), m.data, '중2');
+      totals(chG3, document.getElementById('lg-g3'), m.data, '중3');
+      minis(mG1, m.data, '중1', lc, rc);
+      minis(mG2, m.data, '중2', lc, rc);
+      minis(mG3, m.data, '중3', lc, rc);
+      allB.innerHTML = '';
+      m.data.forEach(r => {
+        const tr = document.createElement('tr'); tr.dataset.key = r.id;
+        cell(tr, r.student); cell(tr, r.grade); cell(tr, r.exam); cell(tr, r.level, 'l');
+        cell(tr, show(r.listening)); cell(tr, show(r.reading)); cell(tr, show(r.total)); cell(tr, show(r.tier)); cell(tr, show(r.note), 'l');
+        allB.append(tr);
+      });
+    } else { [chG1, chG2, chG3, mG1, mG2, mG3].forEach(el => fail(el, m.status)); allB.innerHTML = ''; }
+
+    const gB = document.getElementById('growth-body');
+    gB.innerHTML = '';
+    if (gr.status === 'ok') gr.data.forEach(r => {
+      const tr = document.createElement('tr');
+      cell(tr, r.student); cell(tr, show(r.g1_first)); cell(tr, show(r.g1_last));
+      cell(tr, show(r.g2_last));
+      cell(tr, r.g3_last_exam, 'l'); cell(tr, show(r.g3_last));
+      cell(tr, signed(r.total_change), r.total_change > 0 ? 'up' : r.total_change < 0 ? 'down' : '');
+      gB.append(tr);
+    });
+
+    const chN = document.getElementById('ch-n');
+    if (n.status === 'ok') {
+      const tests = [['1학기', '중간'], ['1학기', '기말'], ['2학기', '중간'], ['2학기', '기말']];
+      legend(document.getElementById('lg-n'), dash.colors);
+      lineChart(chN, {
+        xs: tests.map(t => [t[0], t[1]]), h: 280, y: [80, 100], ticks: [80, 85, 90, 95, 100], unit: '점',
+        series: STUDENTS.map((s, i) => ({ name: s, color: dash.colors[i], vals: tests.map(t => { const r = n.data.find(x => x.student === s && x.semester === t[0] && x.test === t[1]); return r && has(r.score) ? Number(r.score) : null; }) }))
+      });
+    } else fail(chN, n.status);
+
+    const nB = document.getElementById('naesin-body');
+    nB.innerHTML = '';
+    if (ns.status === 'ok') ns.data.forEach(r => {
+      const tr = document.createElement('tr');
+      cell(tr, r.student); cell(tr, show(r.s1_mid)); cell(tr, show(r.s1_fin)); cell(tr, show(r.s2_mid)); cell(tr, show(r.s2_fin)); cell(tr, has(r.avg) ? Number(r.avg).toFixed(1) : '—');
+      nB.append(tr);
+    });
+  });
+})();
+</script>

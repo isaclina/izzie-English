@@ -1,0 +1,178 @@
+[
+ {
+  "id": "김건희-1",
+  "student": "김건희",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 1,
+  "semester": "1학기",
+  "test": "중간",
+  "score": 100,
+  "note": null
+ },
+ {
+  "id": "김건희-2",
+  "student": "김건희",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 2,
+  "semester": "1학기",
+  "test": "기말",
+  "score": 99,
+  "note": null
+ },
+ {
+  "id": "김건희-3",
+  "student": "김건희",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 3,
+  "semester": "2학기",
+  "test": "중간",
+  "score": 96,
+  "note": null
+ },
+ {
+  "id": "김건희-4",
+  "student": "김건희",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 4,
+  "semester": "2학기",
+  "test": "기말",
+  "score": 95,
+  "note": null
+ },
+ {
+  "id": "안도후-1",
+  "student": "안도후",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 1,
+  "semester": "1학기",
+  "test": "중간",
+  "score": 97,
+  "note": null
+ },
+ {
+  "id": "안도후-2",
+  "student": "안도후",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 2,
+  "semester": "1학기",
+  "test": "기말",
+  "score": 98,
+  "note": null
+ },
+ {
+  "id": "안도후-3",
+  "student": "안도후",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 3,
+  "semester": "2학기",
+  "test": "중간",
+  "score": 100,
+  "note": null
+ },
+ {
+  "id": "안도후-4",
+  "student": "안도후",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 4,
+  "semester": "2학기",
+  "test": "기말",
+  "score": 100,
+  "note": null
+ },
+ {
+  "id": "안동휘-1",
+  "student": "안동휘",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 1,
+  "semester": "1학기",
+  "test": "중간",
+  "score": 87,
+  "note": null
+ },
+ {
+  "id": "안동휘-2",
+  "student": "안동휘",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 2,
+  "semester": "1학기",
+  "test": "기말",
+  "score": 99,
+  "note": null
+ },
+ {
+  "id": "안동휘-3",
+  "student": "안동휘",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 3,
+  "semester": "2학기",
+  "test": "중간",
+  "score": 100,
+  "note": null
+ },
+ {
+  "id": "안동휘-4",
+  "student": "안동휘",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 4,
+  "semester": "2학기",
+  "test": "기말",
+  "score": 98,
+  "note": null
+ },
+ {
+  "id": "나민하-1",
+  "student": "나민하",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 1,
+  "semester": "1학기",
+  "test": "중간",
+  "score": 96,
+  "note": null
+ },
+ {
+  "id": "나민하-2",
+  "student": "나민하",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 2,
+  "semester": "1학기",
+  "test": "기말",
+  "score": 96,
+  "note": null
+ },
+ {
+  "id": "나민하-3",
+  "student": "나민하",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 3,
+  "semester": "2학기",
+  "test": "중간",
+  "score": 94,
+  "note": null
+ },
+ {
+  "id": "나민하-4",
+  "student": "나민하",
+  "grade": "중3",
+  "year": 2022,
+  "seq": 4,
+  "semester": "2학기",
+  "test": "기말",
+  "score": null,
+  "note": "기말고사 기간(성적표 작성 시점 미반영)"
+ }
+]
