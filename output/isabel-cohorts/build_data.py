@@ -64,5 +64,5 @@ for s,v in {'김지수':97,'김채율':98,'이서연':100,'황재성':100,'서�
 for s,v in {'김지수':(100,97,100),'김채율':(89,100,94),'이서연':(100,100,99),'황재성':(95,100,95),'서예준':(88,85,92),'이시원':(90,100,100)}.items():
     for t,x in zip(['1학기 중간','1학기 기말','2학기 중간'],v):
         nae.append(dict(cohort='C',student=s,year=2026,grade='중2',term=t,score=x,note=None))
-json.dump(dict(cohorts=COH,mock=mock,naesin=nae),open('data.json','w'),ensure_ascii=False,indent=1)
+json.dump(dict(cohorts=COH,mock=mock,naesin=nae,anonymize=['B']),open('data.json','w'),ensure_ascii=False,indent=1)
 print(len(mock),len(nae))

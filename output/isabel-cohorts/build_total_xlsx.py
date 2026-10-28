@@ -49,6 +49,7 @@ def text(ws, r, t, font=TXT, width_cols=10):
     ws.row_dimensions[r].height = 18 * max(1, len(t) // 95 + 1)
 def tot(s, e): return get.get((s, *e), {}).get('total')
 def tier(s, e): return get.get((s, *e), {}).get('tier')
+def r1(x): return f'{int(x * 10 + 0.5 + 1e-6) / 10:.1f}' if x >= 0 else '-' + r1(-x)
 def mean(v): v = [x for x in v if x is not None]; return sum(v) / len(v) + 1e-9 if v else None
 def dist(ts): c = Counter(t for t in ts if t is not None); return ', '.join(f'{k}등급 {c[k]}명' for k in sorted(c))
 def lab(e):
@@ -156,10 +157,10 @@ for gi, (g, ex) in enumerate(GROUPS):
 sm['A1'] = f'{NAME} · 시험 수준별 총점 성장'; sm['A1'].font = TITLE
 gm = {g: mean([tot(s, e) for e in ex for s in STUDS]) for g, ex in GROUPS}
 first_all = mean([tot(s, GROUPS[0][1][0]) for s in STUDS])
-seq = ' → '.join(f'{g.replace(" 모의고사", "")} {gm[g]:.1f}점' for g, _ in GROUPS)
+seq = ' → '.join(f'{g.replace(" 모의고사", "")} {r1(gm[g])}점' for g, _ in GROUPS)
 lvls = ' → '.join(g.replace(' 모의고사', '').replace('+', '·') for g, _ in GROUPS)
-lines = [f'■ 시험이 {lvls}(으)로 어려워지는데도, 그룹별 반 평균 총점은 {seq}으로 계속 올랐습니다.',
-         f'■ 중1 첫 고1 모의고사 반 평균은 {first_all:.1f}점이었습니다. 마지막 그룹 평균은 그보다 {gm[GROUPS[-1][0]] - first_all:+.1f}점 높습니다.']
+lines = [f'■ 시험이 {lvls} 순서로 어려워지는데도, 그룹별 반 평균 총점은 {seq}으로 계속 올랐습니다.',
+         f'■ 중1 첫 고1 모의고사 반 평균은 {r1(first_all)}점이었습니다. 마지막 그룹 평균은 그보다 +{r1(float(r1(gm[GROUPS[-1][0]])) - float(r1(first_all)))}점 높습니다.']
 up = [s for s in STUDS if all((a or 0) <= (b or 0) for a, b in zip([mean([tot(s, e) for e in ex]) for _, ex in GROUPS][:-1], [mean([tot(s, e) for e in ex]) for _, ex in GROUPS][1:]))]
 if len(GROUPS) > 1:
     lines.append(f'■ 학생 {len(STUDS)}명 중 {len(up)}명({", ".join(up)})은 그룹이 올라갈 때마다 평균 점수도 올랐습니다.')
@@ -177,6 +178,8 @@ r += 1; hr = r
 cell(sm, r, 1, '학생', BOLD, HDR); cell(sm, r, 2, '중1 첫 시험', BOLD, HDR)
 for k, (g, _) in enumerate(GROUPS): cell(sm, r, 3 + k, f'{g}\n평균', BOLD, HDR)
 cell(sm, r, 3 + len(GROUPS), f'첫 시험 →\n마지막 그룹 평균', BOLD, HDR)
+SCH = d.get('schools', {}).get(CO)
+if SCH: cell(sm, r, 4 + len(GROUPS), '진학\n고등학교', BOLD, HDR)
 sm.row_dimensions[r].height = 34; r += 1; first = r
 g0 = gref[GROUPS[0][0]]
 for i, s in enumerate(STUDS + ['반 평균']):
@@ -188,6 +191,7 @@ for i, s in enumerate(STUDS + ['반 평균']):
         R = gref[g]; src = R['avr'] if isavg else R['first'] + i
         cell(sm, r, 3 + k, f"='{R['ws']}'!{L(R['avgcol'])}{src}", Font(name=F, color='008000', bold=isavg), fill, '0.0')
     cell(sm, r, 3 + len(GROUPS), f'={L(2 + len(GROUPS))}{r}-B{r}', fnt, fill, '+0.0;-0.0;0.0')
+    if SCH: cell(sm, r, 4 + len(GROUPS), None if isavg else SCH.get(s), BLUE, fill)
     r += 1
 last = r - 1
 for c, w in zip(range(1, 8), [12, 13, 16, 16, 18, 18, 10]): sm.column_dimensions[L(c)].width = w
@@ -208,4 +212,19 @@ sc.dataLabels = DL('0')
 for sr, col in zip(sc.series, ['C9D6D2', '8FBFB8', '3E9A90', '17403D']): sr.graphicalProperties.solidFill = col
 sm.add_chart(sc, f'A{r + 22}')
 sm.cell(r + 1, 1, '등급 기준: 90점 이상 1등급, 80~89점 2등급, 70~79점 3등급, 60~69점 4등급 · 파란 글씨 = 성적표 입력값, 초록 = 다른 시트 값, 검은 = 계산식').font = MUTED
-out = f"{NAME.replace(' ', '')}_총점_성장.xlsx"; wb.save(out); print(out)
+ANON = CO in d.get('anonymize', [])  # 이름을 학생 A, B, …로 표기하는 반
+if ANON:
+    amap = {st: f'학생 {chr(65 + i)}' for i, st in enumerate(STUDS)}
+    amap[NAME] = d['cohorts'][CO]['name'].split(' (')[0]
+    def an(t):
+        for k in sorted(amap, key=len, reverse=True): t = t.replace(k, amap[k])
+        return t
+    for w in wb.worksheets:
+        w.title = an(w.title)
+        for row in w.iter_rows():
+            for x in row:
+                if isinstance(x.value, str) and not x.value.startswith('='): x.value = an(x.value)
+    out = f"{amap[NAME].replace(' ', '')}_총점_성장.xlsx"
+else:
+    out = f"{NAME.replace(' ', '')}_총점_성장.xlsx"
+wb.save(out); print(out)
