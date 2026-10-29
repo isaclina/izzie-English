@@ -18,7 +18,14 @@ window.LEVELS = [
       ["foresee","v.","예견[예지]하다","predict","What he had foreseen in a dream came true.","그가 꿈속에서 예견했던 일이 실제로 일어났다.","fore(=before) + see → 미리 보다"],
       ["postpone","v.","연기하다, 뒤로 미루다","delay","Let's postpone making a decision until next week.","다음 주까지 결정을 연기합시다.","post(=after) + pone(=put) → 이후로 놓다 → 연기하다"],
       ["postwar","adj.","전후(戰後)의","after the war","During the postwar period, there were too many people who needed to work and wages fell.","전후 시기 동안에 일자리가 필요한 사람들은 너무 많았고 임금은 떨어졌다.","post(=after) + war(전쟁) → 전쟁 이후의"],
-      ["income","n.","수입, 소득","earnings","Her monthly income is less than $1,000.","그녀의 한 달 수입은 천 달러 미만이다.","in(=in) + come → 안으로 들어오는 것 → 소득"]
+      ["income","n.","수입, 소득","earnings","Her monthly income is less than $1,000.","그녀의 한 달 수입은 천 달러 미만이다.","in(=in) + come → 안으로 들어오는 것 → 소득"],
+      ["intake","n.","섭취(량)","consumption","You should reduce your daily intake of sugar.","너는 1일 당분 섭취량을 줄여야 한다.","in(=in) + take → 안으로 가져감 → 섭취"],
+      ["infection","n.","감염; 오염","contagion","Your immune system is working to fight off the infection.","당신의 면역 체계는 감염과 싸우기 위해 작동하고 있다.","in(=in) + fect(=put 두다, 넣다) + ion(명사) → 안에 (병균을) 넣는 것"],
+      ["insight","n.","통찰력","understanding","His writing shows deep insight into human relationships.","그의 글은 인간관계에 대한 깊은 통찰력을 보여준다.","in(=in) + sight(시야) → 안을 들여다보는 시야"],
+      ["inherent","adj.","내재된, 고유의","intrinsic","The inherent complexity of English is something common to all languages.","영어에 내재된 복잡성은 모든 언어에 공통적인 것이다.","in(=in) + herent(=adhere 들러붙다) → 안에 붙어 있는 → 내재된"],
+      ["investment","n.","투자, 투자 자금","funding","We should attract foreign investment.","우리는 외국인 투자를 이끌어내야[유치해야] 한다.","in(=on) + vest(=clothe) + ment(명사) → 옷을 입히는 것 → 돈에 관복을 입히는 것 → 투자"],
+      ["investigate","v.","수사[조사]하다; 조사[연구]하다","examine","Cheryl got down on her hands and knees to investigate the tunnel.","Cheryl은 그 터널을 조사하기 위해 손과 무릎을 짚어 엎드렸다.","in(=into) + vestigate(=track 추적하다) → 안으로 추적하다 → 깊이 추적하여 조사하다"],
+      ["illustrate","v.","설명하다, 삽화를 쓰다, 예시를 보여주다","demonstrate","This experiment illustrates the problems created by pollution from factories.","이 실험은 공장에서 발생시키는 오염으로 인해 생기는 문제를 설명한다.","il(=upon) + lustrate(=illuminate 불을 비추다) → 위로 불을 비추다 → 잘 이해되도록 설명하다"]
     ]},
     { id: "u1", title: "보다 · 말하다 · 쓰다 · 듣다", en: "spect, vis, dict, scrib, log, voc, audi", words: [
       ["inspect","v.","검사하다","examine","The officer will inspect your bag at the gate.","경비원이 입구에서 당신의 가방을 검사할 것이다.","in(안) + spect(보다)"],
