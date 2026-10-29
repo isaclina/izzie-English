@@ -17,8 +17,9 @@
 const app = document.getElementById("app");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const lv = id => LEVELS.find(l => l.id === id);
-const unitName = (l, u) => { const L = lv(l); const i = L ? L.units.findIndex(x => x.id === u) : -1; return L ? `${L.title} Unit ${i + 1}` : `${l} ${u}`; };
+const unitName = (l, u) => { const L = lv(l); const i = L ? L.units.findIndex(x => x.id === u) : -1; return i >= 0 ? `${L.title} ${L.units[i].label}` : `${l} ${u}`; };
 const when = iso => iso ? new Date(iso).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "아직 없음";
+const ALL = LEVELS.reduce((n, l) => n + l.units.reduce((t, u) => t + u.words.length, 0), 0);
 let pin = ""; try { pin = sessionStorage.getItem("izzie-pin") || ""; } catch (e) {}
 let data = null, selected = null, error = "", loadedAt = null;
 
@@ -64,8 +65,8 @@ function render() {
     return `<tr data-s="${esc(rec.student)}" class="${selected === rec.student ? "sel" : ""}">
       <td><b>${esc(rec.student)}</b></td>
       <td class="${rec.lastActive ? "" : "idle"}">${when(rec.lastActive)}</td>
-      <td>${total} / 450</td>
-      ${LEVELS.map(l => { const n = per[l.id] || 0; return `<td>${n}<span class="mini" aria-hidden="true"><i style="width:${n / 90 * 100}%"></i></span></td>`; }).join("")}
+      <td>${total} / ${ALL}</td>
+      ${LEVELS.map(l => { const n = per[l.id] || 0; return `<td>${n}<span class="mini" aria-hidden="true"><i style="width:${n / l.units.reduce((t, u) => t + u.words.length, 0) * 100}%"></i></span></td>`; }).join("")}
       <td>${reviews}회</td></tr>`;
   }).join("");
   app.innerHTML = `
@@ -85,7 +86,7 @@ function detail(rec) {
     const n = u.words.filter(w => rec.studied[`${l.id}:${u.id}:${w.word}`]).length;
     const bw = rec.best[`${l.id}:${u.id}:word`], bs = rec.best[`${l.id}:${u.id}:sentence`];
     if (!n && !bw && !bs) return "";
-    return `<tr><td>${esc(l.title)}</td><td>Unit ${i + 1} ${esc(u.title)}</td><td>${n} / 30</td>
+    return `<tr><td>${esc(l.title)}</td><td>${u.label} ${esc(u.title)}</td><td>${n} / ${u.words.length}</td>
       <td>${bw ? `${bw.score}/${bw.total}` : "–"}</td><td>${bs ? `${bs.score}/${bs.total}` : "–"}</td></tr>`;
   })).join("");
   const log = rec.log.slice(0, 40).map(x => {

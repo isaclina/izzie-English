@@ -6,7 +6,7 @@ import { getStore } from "@netlify/blobs";
 
 const STUDENTS = ["A", "B", "C", "D", "E", "F", "G"];
 const LEVELS = ["root", "hsbasic", "csat", "csatplus", "ebs"];
-const UNITS = ["u1", "u2", "u3"];
+const UNIT_ID = /^(u[1-9]|d\d{2})$/;
 const MAX_LOG = 300;
 
 const json = (data, status = 200) =>
@@ -36,11 +36,11 @@ export default async req => {
     const now = new Date().toISOString();
     let entry;
     if (e.type === "login") entry = { type: "login" };
-    else if (e.type === "studied" && LEVELS.includes(e.level) && UNITS.includes(e.unit) && word(e.word)) {
+    else if (e.type === "studied" && LEVELS.includes(e.level) && UNIT_ID.test(e.unit) && word(e.word)) {
       const k = `${e.level}:${e.unit}:${e.word}`;
       rec.studied[k] = rec.studied[k] || now;
       entry = { type: "studied", level: e.level, unit: e.unit, word: e.word };
-    } else if (e.type === "review" && LEVELS.includes(e.level) && UNITS.includes(e.unit) && ["word", "sentence"].includes(e.mode)
+    } else if (e.type === "review" && LEVELS.includes(e.level) && UNIT_ID.test(e.unit) && ["word", "sentence"].includes(e.mode)
       && Number.isInteger(e.score) && Number.isInteger(e.total) && e.total > 0 && e.total <= 30 && e.score >= 0 && e.score <= e.total) {
       const k = `${e.level}:${e.unit}:${e.mode}`, b = rec.best[k];
       if (!b || e.score / e.total > b.score / b.total || (e.score / e.total === b.score / b.total && e.total > b.total))

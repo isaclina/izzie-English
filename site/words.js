@@ -2,6 +2,24 @@
    Each entry: [word, part of speech, meaning, synonym, example sentence, translation, word root (어원 level only)] */
 window.LEVELS = [
   { id: "root", title: "고등 어원", en: "Word Roots", units: [
+    { id: "d01", title: "pro- · pre- · fore- · post- · in¹", en: "앞으로 · 미리 · 앞에 · 뒤에 · 안에", words: [
+      ["progress","n.","진보, 발전; 전진","advance","Some progressive schools are testing different systems to speed up their educational progress.","일부 진보적인 학교에서는 교육 발전을 가속화하기 위해 다양한 제도들을 실험하고 있다.","pro(=forward) + gress(=go) → 앞으로 나아감"],
+      ["propose","v.","제안하다; 청혼하다","suggest","He proposed starting a drama club at school.","그는 교내 연극 동아리를 만들자고 제안했다.","pro(=forward) + pose(=place) → 앞으로 내놓다 → 제안하다"],
+      ["produce","v.","생산[제조]하다","manufacture","The factory produces first-class cheese.","그 공장은 최고급 치즈를 생산한다.","pro(=forward) + duce(=lead) → 앞으로 이끌어내다 → 생산하다"],
+      ["protect","v.","보호하다, 막다, 지키다","guard","A good sunscreen will protect you against sunburn.","좋은 자외선 차단제는 햇볕에 타는 것으로부터 당신을 보호해줄 것이다.","pro(=forward) + tect(=cover) → 앞으로 나와 막아주다"],
+      ["purchase","v.","구매하다, 구입하다","buy","They tried to purchase a computer online, but the purchase was unsuccessful because their credit card had expired.","그들은 컴퓨터를 온라인으로 구매하려고 했지만, 그들의 신용 카드가 만료됐었기 때문에 그 구매는 성공적이지 못했다.","pur(=forward) + chase(쫓다) → 앞으로 쫓아가 얻으려 하다 → 구매하다"],
+      ["predict","v.","예언하다, 예측[예상]하다","forecast","Experts predict that gas prices will continue to rise.","전문가들은 석유 가격이 계속해서 오를 것이라고 예측한다.","pre(=before) + dict(=tell) → 미리 말하다 → 예언하다"],
+      ["precaution","n.","조심, 경계; 예방책","safeguard","Always take precautions when using dangerous equipment.","위험한 장비를 사용할 때는 항상 조심하세요.","pre(=before) + caution(주의) → 미리 주의를 줌 → 예방책"],
+      ["premature","adj.","시기상조의, 조급한; 너무 이른","hasty","We tried not to draw any premature conclusions.","우리는 어떤 성급한 결론도 내리지 않으려 노력했다.","pre(=before) + mature(무르익은) → 무르익기 전의 → 시기상조의"],
+      ["preview","n.","미리 보기; 시사회, 예고편","trailer","Have you seen the preview for that movie?","그 영화 예고편 봤어요?","pre(=before) + view(보다) → 미리[앞서] 봄"],
+      ["forehead","n.","이마","brow","He wiped the sweat off his forehead with a towel.","그는 수건으로 이마의 땀을 닦았다.","fore(=before) + head → 머리의 앞쪽"],
+      ["forefather","n.","선조, 조상","ancestor","We learned how inventive our forefathers were.","우리는 우리 조상들이 얼마나 독창적이었는지를 알게 되었다.","fore(=before) + father → 아버지보다 앞서 계셨던 분"],
+      ["foremost","adj.","가장 중요한, 최고의; 맨 앞의","leading","She is the foremost expert in this field.","그녀는 이 분야에서 최고의 전문가이다.","fore(=before) + most(가장) → 가장 먼저의"],
+      ["foresee","v.","예견[예지]하다","predict","What he had foreseen in a dream came true.","그가 꿈속에서 예견했던 일이 실제로 일어났다.","fore(=before) + see → 미리 보다"],
+      ["postpone","v.","연기하다, 뒤로 미루다","delay","Let's postpone making a decision until next week.","다음 주까지 결정을 연기합시다.","post(=after) + pone(=put) → 이후로 놓다 → 연기하다"],
+      ["postwar","adj.","전후(戰後)의","after the war","During the postwar period, there were too many people who needed to work and wages fell.","전후 시기 동안에 일자리가 필요한 사람들은 너무 많았고 임금은 떨어졌다.","post(=after) + war(전쟁) → 전쟁 이후의"],
+      ["income","n.","수입, 소득","earnings","Her monthly income is less than $1,000.","그녀의 한 달 수입은 천 달러 미만이다.","in(=in) + come → 안으로 들어오는 것 → 소득"]
+    ]},
     { id: "u1", title: "보다 · 말하다 · 쓰다 · 듣다", en: "spect, vis, dict, scrib, log, voc, audi", words: [
       ["inspect","v.","검사하다","examine","The officer will inspect your bag at the gate.","경비원이 입구에서 당신의 가방을 검사할 것이다.","in(안) + spect(보다)"],
       ["respect","v.","존경하다","admire","Students respect the teacher for her patience.","학생들은 선생님의 인내심 때문에 그녀를 존경한다.","re(다시) + spect(보다)"],
@@ -495,6 +513,7 @@ window.LEVELS = [
   ...level,
   units: level.units.map(u => ({
     ...u,
+    label: u.id.startsWith("d") ? "Day " + u.id.slice(1) : "Unit " + u.id.slice(1),
     words: u.words.map(([word, pos, ko, syn, sent, sentKo, root]) => ({ word, pos, ko, syn, sent, sentKo, root }))
   }))
 }));
