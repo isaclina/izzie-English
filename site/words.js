@@ -25,7 +25,18 @@ window.LEVELS = [
       ["inherent","adj.","내재된, 고유의","intrinsic","The inherent complexity of English is something common to all languages.","영어에 내재된 복잡성은 모든 언어에 공통적인 것이다.","in(=in) + herent(=adhere 들러붙다) → 안에 붙어 있는 → 내재된"],
       ["investment","n.","투자, 투자 자금","funding","We should attract foreign investment.","우리는 외국인 투자를 이끌어내야[유치해야] 한다.","in(=on) + vest(=clothe) + ment(명사) → 옷을 입히는 것 → 돈에 관복을 입히는 것 → 투자"],
       ["investigate","v.","수사[조사]하다; 조사[연구]하다","examine","Cheryl got down on her hands and knees to investigate the tunnel.","Cheryl은 그 터널을 조사하기 위해 손과 무릎을 짚어 엎드렸다.","in(=into) + vestigate(=track 추적하다) → 안으로 추적하다 → 깊이 추적하여 조사하다"],
-      ["illustrate","v.","설명하다, 삽화를 쓰다, 예시를 보여주다","demonstrate","This experiment illustrates the problems created by pollution from factories.","이 실험은 공장에서 발생시키는 오염으로 인해 생기는 문제를 설명한다.","il(=upon) + lustrate(=illuminate 불을 비추다) → 위로 불을 비추다 → 잘 이해되도록 설명하다"]
+      ["illustrate","v.","설명하다, 삽화를 쓰다, 예시를 보여주다","demonstrate","This experiment illustrates the problems created by pollution from factories.","이 실험은 공장에서 발생시키는 오염으로 인해 생기는 문제를 설명한다.","il(=upon) + lustrate(=illuminate 불을 비추다) → 위로 불을 비추다 → 잘 이해되도록 설명하다"],
+      ["proceed","v.","계속[진행]하다; 나아가다","continue","Please proceed with your presentation.","발표를 계속 진행해 주세요.","more with pro- · pro(앞으로) + ceed(가다) → 앞으로 가다"],
+      ["project","n.","프로젝트, 계획","plan","Our class project is about saving energy.","우리 반 프로젝트는 에너지 절약에 관한 것이다.","more with pro- · pro(앞쪽으로) + ject(던지다) → 앞쪽으로 던지다"],
+      ["promote","v.","장려[촉진]하다; 승진시키다","encourage","The school promotes reading with a book club.","학교는 독서 동아리로 독서를 장려한다.","more with pro- · pro(앞으로) + mote(움직이다) → 앞으로 움직이다"],
+      ["precede","v.","…보다 먼저 일어나다, …에 선행하다","come before","A short speech will precede the concert.","콘서트에 앞서 짧은 연설이 있을 것이다.","more with pre- · pre(먼저) + cede(가다) → …보다 먼저 존재하다"],
+      ["preface","n.","머리말, 서문","introduction","Read the preface before you start the book.","책을 시작하기 전에 머리말을 읽어라.","more with pre- · pre(앞서) + face(말하다) → (본문에) 앞서 하는 이야기"],
+      ["prejudice","n.","편견, 선입견","bias","We should not judge people with prejudice.","우리는 편견을 가지고 사람을 판단해서는 안 된다.","more with pre- · pre(미리) + judice(판결) → 미리 판결을 내림"],
+      ["prepare","v.","준비[대비]하다","get ready","I need to prepare for the English test.","나는 영어 시험을 준비해야 한다.","more with pre- · pre(미리) + pare(준비하다) → 미리 준비하다"],
+      ["include","v.","포함[함유]하다; 넣다, 포함시키다","contain","The price includes breakfast.","그 가격에는 아침 식사가 포함되어 있다.","more with in¹- · in(안에) + clude(닫다) → 안에 넣고 닫다"],
+      ["indoor","adj.","실내의","inside","We played indoor games because of the rain.","비 때문에 우리는 실내 게임을 했다.","more with in¹- · in(안) + door(문) → 문 안쪽의"],
+      ["input","n.","투입; (의견·정보의) 제공","contribution","The project needs more input from students.","그 프로젝트에는 학생들의 의견이 더 필요하다.","more with in¹- · in(안에) + put(넣다) → 안에 넣음"],
+      ["install","v.","설치하다","set up","We installed a new air conditioner in the classroom.","우리는 교실에 새 에어컨을 설치했다.","more with in¹- · in(안) + stall(장소) → 어떤 장소 안에 놓다"]
     ]},
     { id: "u1", title: "보다 · 말하다 · 쓰다 · 듣다", en: "spect, vis, dict, scrib, log, voc, audi", words: [
       ["inspect","v.","검사하다","examine","The officer will inspect your bag at the gate.","경비원이 입구에서 당신의 가방을 검사할 것이다.","in(안) + spect(보다)"],
