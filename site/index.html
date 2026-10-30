@@ -316,7 +316,7 @@ function viewReviewSetup() {
   </section>`;
 }
 
-function reviewCounts(u) { return [10, 20, 30].filter(n => n < u.words.length).concat(Math.min(30, u.words.length)); }
+function reviewCounts(u) { return [10, 20, 30].filter(n => n < u.words.length).concat(u.words.length); }
 function startReview(items) {
   state.rtype = state.rtype || "word"; state.rcount = Math.min(state.rcount || 10, curUnit().words.length);
   state.queue = items || shuffle(curUnit().words).slice(0, state.rcount);

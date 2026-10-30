@@ -41,11 +41,11 @@ export default async req => {
       rec.studied[k] = rec.studied[k] || now;
       entry = { type: "studied", level: e.level, unit: e.unit, word: e.word };
     } else if (e.type === "review" && LEVELS.includes(e.level) && UNIT_ID.test(e.unit) && ["word", "sentence"].includes(e.mode)
-      && Number.isInteger(e.score) && Number.isInteger(e.total) && e.total > 0 && e.total <= 30 && e.score >= 0 && e.score <= e.total) {
+      && Number.isInteger(e.score) && Number.isInteger(e.total) && e.total > 0 && e.total <= 100 && e.score >= 0 && e.score <= e.total) {
       const k = `${e.level}:${e.unit}:${e.mode}`, b = rec.best[k];
       if (!b || e.score / e.total > b.score / b.total || (e.score / e.total === b.score / b.total && e.total > b.total))
         rec.best[k] = { score: e.score, total: e.total, at: now };
-      const wrong = Array.isArray(e.wrong) ? e.wrong.filter(word).slice(0, 30) : [];
+      const wrong = Array.isArray(e.wrong) ? e.wrong.filter(word).slice(0, 100) : [];
       entry = { type: "review", level: e.level, unit: e.unit, mode: e.mode, score: e.score, total: e.total, wrong };
     } else return json({ error: "unknown event" }, 400);
 
