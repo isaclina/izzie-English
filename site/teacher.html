@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Izzie 영단어 선생님</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>.wrap { max-width: 1040px; } tr[data-s] { cursor: pointer; } tr[data-s]:hover td, tr.sel td { background: var(--accent-soft); }</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+<script src="words.js"></script>
+<script>
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const lv = id => LEVELS.find(l => l.id === id);
+const unitName = (l, u) => { const L = lv(l); const i = L ? L.units.findIndex(x => x.id === u) : -1; return i >= 0 ? `${L.title} ${L.units[i].label}` : `${l} ${u}`; };
+const when = iso => iso ? new Date(iso).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "아직 없음";
+const ALL = LEVELS.reduce((n, l) => n + l.units.reduce((t, u) => t + u.words.length, 0), 0);
+let pin = ""; try { pin = sessionStorage.getItem("izzie-pin") || ""; } catch (e) {}
+let data = null, selected = null, error = "", loadedAt = null;
+
+async function load() {
+  try {
+    const r = await fetch("/api/progress", { cache: "no-store", headers: pin ? { "x-teacher-pin": pin } : {} });
+    if (r.status === 401) { error = "pin"; data = null; }
+    else if (!r.ok) throw new Error(r.status);
+    else { data = await r.json(); error = ""; loadedAt = new Date().toISOString(); }
+  } catch (e) { error = "offline"; }
+  render();
+}
+
+function counts(rec) {
+  const per = {};
+  for (const k in rec.studied) { const l = k.split(":")[0]; per[l] = (per[l] || 0) + 1; }
+  return per;
+}
+
+function render() {
+  if (error === "pin") {
+    app.innerHTML = `<header><p class="eyebrow">Teacher</p><h1>선생님 페이지</h1></header>
+      <form class="panel" id="pin-form"><label for="pin" class="muted">선생님 비밀번호를 입력하세요.</label>
+      <input type="text" id="pin" autocomplete="off"><div class="row"><button class="btn primary">확인</button></div></form>`;
+    document.getElementById("pin-form").onsubmit = e => {
+      e.preventDefault(); pin = document.getElementById("pin").value.trim();
+      try { sessionStorage.setItem("izzie-pin", pin); } catch (err) {}
+      load();
+    };
+    return;
+  }
+  if (error === "offline" || !data) {
+    app.innerHTML = `<header><p class="eyebrow">Teacher</p><h1>선생님 페이지</h1></header>
+      <section class="panel"><p>${error === "offline" ? "학습 기록 서버에 연결하지 못했어요. 이 페이지는 Netlify에 올린 사이트에서 열어야 기록이 보입니다." : "불러오는 중…"}</p>
+      <div class="row"><button class="btn" id="retry">다시 불러오기</button><a class="btn" href="./">학생 화면</a></div></section>`;
+    const b = document.getElementById("retry"); if (b) b.onclick = load;
+    return;
+  }
+  const students = data.students;
+  const rows = students.map(rec => {
+    const per = counts(rec), total = Object.keys(rec.studied).length;
+    const reviews = rec.log.filter(x => x.type === "review").length;
+    return `<tr data-s="${esc(rec.student)}" class="${selected === rec.student ? "sel" : ""}">
+      <td><b>${esc(rec.student)}</b></td>
+      <td class="${rec.lastActive ? "" : "idle"}">${when(rec.lastActive)}</td>
+      <td>${total} / ${ALL}</td>
+      ${LEVELS.map(l => { const n = per[l.id] || 0; return `<td>${n}<span class="mini" aria-hidden="true"><i style="width:${n / l.units.reduce((t, u) => t + u.words.length, 0) * 100}%"></i></span></td>`; }).join("")}
+      <td>${reviews}회</td></tr>`;
+  }).join("");
+  app.innerHTML = `
+  <div class="top"><div><p class="eyebrow">Teacher · A–G</p><h1>학생 학습 기록</h1></div>
+    <div class="row"><span class="stats">${when(loadedAt)} 기준</span><button class="btn small" id="refresh">새로고침</button><a class="btn small" href="./">학생 화면</a></div></div>
+  <p class="muted">학생 줄을 누르면 단계·유닛별 기록과 최근 활동을 볼 수 있어요. 완료 단어는 5단계 문장 쓰기까지 정확히 마친 단어입니다.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>학생</th><th>마지막 학습</th><th>완료 단어</th>${LEVELS.map(l => `<th>${esc(l.title)}</th>`).join("")}<th>리뷰</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>
+  ${selected ? detail(students.find(s => s.student === selected)) : ""}`;
+  document.getElementById("refresh").onclick = load;
+  app.querySelectorAll("tr[data-s]").forEach(tr => tr.onclick = () => { selected = selected === tr.dataset.s ? null : tr.dataset.s; render(); });
+}
+
+function detail(rec) {
+  const unitRows = LEVELS.flatMap(l => l.units.map((u, i) => {
+    const n = u.words.filter(w => rec.studied[`${l.id}:${u.id}:${w.word}`]).length;
+    const bw = rec.best[`${l.id}:${u.id}:word`], bs = rec.best[`${l.id}:${u.id}:sentence`];
+    if (!n && !bw && !bs) return "";
+    return `<tr><td>${esc(l.title)}</td><td>${u.label} ${esc(u.title)}</td><td>${n} / ${u.words.length}</td>
+      <td>${bw ? `${bw.score}/${bw.total}` : "–"}</td><td>${bs ? `${bs.score}/${bs.total}` : "–"}</td></tr>`;
+  })).join("");
+  const log = rec.log.slice(0, 40).map(x => {
+    let text = "";
+    if (x.type === "login") text = "앱에 들어옴";
+    else if (x.type === "studied") text = `${esc(unitName(x.level, x.unit))} · <b>${esc(x.word)}</b> 학습 완료`;
+    else if (x.type === "review") {
+      const ok = x.score === x.total;
+      text = `${esc(unitName(x.level, x.unit))} · ${x.mode === "word" ? "단어 쓰기" : "문장 쓰기"} 리뷰 <span class="${ok ? "tag-good" : "tag-bad"}">${x.score}/${x.total}</span>`
+        + (x.wrong && x.wrong.length ? ` <span class="muted">틀린 단어: ${x.wrong.map(esc).join(", ")}</span>` : "");
+    }
+    return `<li><time>${when(x.at)}</time><span>${text}</span></li>`;
+  }).join("");
+  return `
+  <section class="panel">
+    <h2>${esc(rec.student)} 학생</h2>
+    ${unitRows ? `<div class="table-wrap"><table><thead><tr><th>단계</th><th>유닛</th><th>완료 단어</th><th>단어 쓰기 최고</th><th>문장 쓰기 최고</th></tr></thead><tbody>${unitRows}</tbody></table></div>`
+      : `<p class="muted">아직 완료한 단어나 리뷰가 없어요.</p>`}
+    <h2>최근 활동</h2>
+    ${log ? `<ul class="log">${log}</ul>` : `<p class="muted">기록이 없어요.</p>`}
+  </section>`;
+}
+
+render(); load(); setInterval(load, 60000);
+</script>
+</body>
+</html>
