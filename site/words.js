@@ -1,5 +1,5 @@
-/* Word lists: 5 levels x 3 units x 30 words.
-   Each entry: [word, part of speech, meaning, synonym, example sentence, translation, word root (어원 level only)] */
+/* Word lists: levels -> units -> words.
+   Each entry: [word, part of speech, meaning, synonym, example sentence, translation, word root (어원 level only), source (모의고사 문항 번호)] */
 window.LEVELS = [
   { id: "root", title: "고등 어원", en: "Word Roots", units: [
     { id: "d01", title: "pro- · pre- · fore- · post- · in¹", en: "앞으로 · 미리 · 앞에 · 뒤에 · 안에", words: [
@@ -526,12 +526,110 @@ window.LEVELS = [
       ["cumulative","adj.","누적되는","accumulated","The effects of stress are cumulative.","스트레스의 영향은 누적된다."],
       ["sophisticated","adj.","정교한","advanced","Smartphones use sophisticated technology.","스마트폰은 정교한 기술을 사용한다."]
     ]}
+  ]},
+  { id: "mock2610", title: "2026 10월 고1 모의고사", en: "Oct 2026 Grade 10 Mock Exam", units: [
+    { id: "u1", label: "18~24번", title: "편지 · 세계 시민 · 목표와 환상 · 내부 고발 · 시간", en: "Questions 18–24", words: [
+      ["contribute","v.","기여하다","add to","I want to contribute more to the department.","저는 부서에 더 기여하고 싶습니다.","","18번"],
+      ["additional","adj.","추가의","extra","I would like to receive additional training.","저는 추가 연수를 받고 싶습니다.","","18번"],
+      ["potential","adj.","잠재적인","possible","Our department needs to better attract potential customers.","우리 부서는 잠재 고객을 더 잘 끌어들일 필요가 있다.","","18번"],
+      ["strategy","n.","전략","plan","The course focuses on digital marketing strategies.","그 강좌는 디지털 마케팅 전략에 초점을 맞춘다.","","18번"],
+      ["request","v.","요청하다","ask for","I'm requesting that the company cover part of my training cost.","저는 회사가 제 연수 비용의 일부를 부담해 주기를 요청합니다.","","18번"],
+      ["assignment","n.","과제","homework","After months of quizzes and assignments, I couldn't wait to leave.","몇 달 동안의 퀴즈와 과제 끝에 나는 빨리 떠나고 싶었다.","","19번"],
+      ["ruin","v.","망치다","spoil","Nothing could ruin my mood.","어떤 것도 내 기분을 망칠 수 없었다.","","19번"],
+      ["precious","adj.","소중한","valuable","It was the last thing I wanted to do with my precious summer.","그것은 소중한 여름에 내가 가장 하고 싶지 않은 일이었다.","","19번"],
+      ["skeptical","adj.","회의적인","doubtful","Some people are skeptical about the idea of global citizenship.","어떤 사람들은 세계 시민 의식이라는 생각에 회의적이다.","","20번"],
+      ["citizenship","n.","시민권, 시민 의식","nationality","We need to layer global citizenship on to these other identities.","우리는 이러한 다른 정체성들 위에 세계 시민 의식을 더할 필요가 있다.","","20번"],
+      ["identity","n.","정체성","individuality","There's not a single story about our identities.","우리의 정체성에 대한 단 하나의 이야기는 없다.","","20번"],
+      ["obligation","n.","의무","duty","We have obligations to our families.","우리는 가족에 대한 의무가 있다.","","20번"],
+      ["replace","v.","대체하다","substitute","Global citizenship doesn't replace these other identities.","세계 시민 의식이 이러한 다른 정체성들을 대체하는 것은 아니다.","","20번"],
+      ["alter","v.","바꾸다","change","They do little to meaningfully alter their current situation.","그들은 현재 상황을 의미 있게 바꾸기 위해 거의 아무것도 하지 않는다.","","21번"],
+      ["approach","n.","접근 방식","method","You've got to completely switch up your approach.","너는 접근 방식을 완전히 바꿔야 한다.","","21번"],
+      ["miraculously","adv.","기적적으로","magically","Someday things will miraculously change.","언젠가 상황이 기적적으로 바뀔 것이다.","","21번"],
+      ["disconnected","adj.","단절된, 동떨어진","separated","Sometimes the idea of a goal is disconnected from daily reality.","때때로 목표에 대한 생각은 일상의 현실과 동떨어져 있다.","","22번"],
+      ["accomplishment","n.","성취","achievement","Our fantasies provide us with a false sense of accomplishment.","우리의 환상은 우리에게 거짓된 성취감을 준다.","","22번"],
+      ["fantasy","n.","환상, 공상","daydream","Positive fantasies can lead us to put less effort into our goals.","긍정적인 환상은 우리가 목표에 노력을 덜 쏟게 만들 수 있다.","","22번"],
+      ["integrate","v.","통합시키다, 받아들이다","combine","It is hard to integrate a complex new behavior into our life.","복잡한 새 행동을 삶에 받아들이는 것은 어렵다.","","22번"],
+      ["reflect","v.","곰곰이 생각하다","consider","We don't reflect on why our fantasy is not yet our future.","우리는 왜 우리의 환상이 아직 우리의 미래가 아닌지 곰곰이 생각하지 않는다.","","22번"],
+      ["illegal","adj.","불법의","unlawful","The number of illegal actions has grown.","불법 행위의 수가 증가했다.","","23번"],
+      ["misconduct","n.","위법 행위, 비행","wrongdoing","Such misconduct has often been exposed by brave informants.","그러한 위법 행위는 종종 용감한 제보자들에 의해 드러났다.","","23번"],
+      ["informant","n.","제보자","whistleblower","Brave informants have risked a great deal.","용감한 제보자들은 많은 것을 걸었다.","","23번"],
+      ["violation","n.","위반","breach","Violations of law often go undetected for years.","법 위반은 종종 수년 동안 발각되지 않는다.","","23번"],
+      ["undetected","adj.","발각되지 않은","unnoticed","Illegal activities can go undetected and unpunished.","불법 행위는 발각되지 않고 처벌받지 않을 수 있다.","","23번"],
+      ["consequence","n.","결과, (나쁜) 영향","result","Employees fear to report illegal activities for fear of consequences.","직원들은 뒤따를 결과가 두려워 불법 행위를 신고하기를 두려워한다.","","23번"],
+      ["perception","n.","인식","awareness","Our perception of time is shaped by cultural norms.","시간에 대한 우리의 인식은 문화적 규범에 의해 형성된다.","","24번"],
+      ["fundamental","adj.","근본적인, 기본적인","basic","The week is a fundamental unit of time.","주(週)는 시간의 기본적인 단위이다.","","24번"],
+      ["internalize","v.","내면화하다","absorb","We internalize social creations and accept them as normal.","우리는 사회적 창조물을 내면화하고 그것을 정상으로 받아들인다.","","24번"]
+    ]},
+    { id: "u2", label: "25~34번", title: "도표 · 인물 · 안내문 · 노화 · 보조금 · 빈칸", en: "Questions 25–34", words: [
+      ["share","n.","점유율, 몫","portion","The share of plug-in hybrid car sales remained below 10%.","플러그인 하이브리드 자동차 판매 점유율은 10% 미만에 머물렀다.","","25번"],
+      ["combined","adj.","합친, 결합된","total","The combined share of the two types increased.","두 종류를 합친 점유율이 증가했다.","","25번"],
+      ["interaction","n.","상호 작용","communication","He transformed the field of human-computer interaction.","그는 인간과 컴퓨터의 상호 작용 분야를 변화시켰다.","","26번"],
+      ["immigrant","n.","이민자","settler","He was born to a European immigrant family.","그는 유럽 이민자 가정에서 태어났다.","","26번"],
+      ["enhance","v.","향상시키다","improve","He wanted to use computers to enhance human abilities.","그는 인간의 능력을 향상시키기 위해 컴퓨터를 사용하고 싶어 했다.","","26번"],
+      ["demonstrate","v.","시연하다, 보여 주다","show","He demonstrated his technologies including the computer mouse.","그는 컴퓨터 마우스를 포함한 자신의 기술들을 시연했다.","","26번"],
+      ["monumental","adj.","기념비적인","historic","It became a monumental event in computer history.","그것은 컴퓨터 역사에서 기념비적인 사건이 되었다.","","26번"],
+      ["participant","n.","참가자","member","Participants must drop off their digital devices at reception.","참가자들은 접수처에 디지털 기기를 맡겨야 한다.","","27번"],
+      ["registration","n.","등록","sign-up","Registration should be made online.","등록은 온라인으로 해야 한다.","","27번"],
+      ["criteria","n.","기준 (criterion의 복수형)","standards","Creativity is one of the judging criteria.","창의성은 심사 기준 중 하나이다.","","28번"],
+      ["entry","n.","출품작; 참가","submission","Entries are limited to one per student.","출품작은 학생 1인당 하나로 제한된다.","","28번"],
+      ["immortal","adj.","죽지 않는, 불멸의","everlasting","They are often called biologically immortal.","그것들은 종종 생물학적으로 불멸한다고 불린다.","","29번"],
+      ["likelihood","n.","가능성","probability","Their likelihood of dying does not increase with age.","그것들이 죽을 가능성은 나이가 들어도 증가하지 않는다.","","29번"],
+      ["regenerate","v.","재생시키다","regrow","They can regenerate entire body parts.","그것들은 신체 부위 전체를 재생시킬 수 있다.","","29번"],
+      ["apparent","adj.","겉으로 보이는, 명백한","obvious","We may learn about their lack of apparent aging.","우리는 그것들에게 겉으로 보이는 노화가 없다는 것에 대해 배울 수도 있다.","","29번"],
+      ["universal","adj.","보편적인","general","Sometimes biology is universal.","때때로 생물학은 보편적이다.","","29번"],
+      ["regulation","n.","규제","rule","Subsidies, taxes, and regulations can lead to cleaner power plants.","보조금, 세금, 규제는 더 깨끗한 발전소로 이어질 수 있다.","","30번"],
+      ["contraction","n.","축소, 수축","reduction","Expansion for some means contraction for others.","어떤 이들의 확장은 다른 이들의 축소를 의미한다.","","30번"],
+      ["taxation","n.","과세, 세금","taxes","Ordinary people must suffer from increased taxation.","보통 사람들은 늘어난 세금으로 고통받아야 한다.","","30번"],
+      ["distort","v.","왜곡하다","twist","The subsidy distorts the economy.","보조금은 경제를 왜곡한다.","","30번"],
+      ["consumption","n.","소비","use","Electricity consumption may end up higher.","전기 소비가 결국 더 많아질 수도 있다.","","30번"],
+      ["prosperity","n.","번영","wealth","Everyone can participate in this prosperity.","모두가 이 번영에 참여할 수 있다.","","31번"],
+      ["classical","adj.","고전적인","traditional","All of classical economics is based on this notion.","모든 고전 경제학은 이 개념에 기초한다.","","31번"],
+      ["generative","adj.","생성하는, 생성형의","creative","Generative AI has great potential.","생성형 AI는 큰 잠재력을 가지고 있다.","","31번"],
+      ["concern","n.","걱정, 관심사","worry","They want someone to listen to their concerns.","그들은 누군가가 자신의 걱정을 들어주기를 원한다.","","32번"],
+      ["address","v.","(문제를) 다루다, 해결하다","deal with","Someone is going to address their concerns.","누군가가 그들의 걱정을 해결해 줄 것이다.","","32번"],
+      ["outward","adj.","겉으로 드러나는","external","We need some outward signal that they listened.","우리는 그들이 들었다는 겉으로 드러나는 신호가 필요하다.","","32번"],
+      ["inseparable","adj.","분리할 수 없는","linked","The space is inseparable from the event that took place in it.","그 공간은 그 안에서 일어난 사건과 분리할 수 없다.","","33번"],
+      ["framework","n.","틀, 체계","structure","The spatial framework is the medium of all experiences.","공간적 틀은 모든 경험의 매개체이다.","","33번"],
+      ["assumption","n.","가정, 전제","supposition","All models must make simplifying assumptions.","모든 모델은 단순화하는 가정을 해야 한다.","","34번"]
+    ]},
+    { id: "u3", label: "35~45번", title: "번아웃 · 소리 · 협업 · 반복 · 잠수 · 식물 · 웹 디자인 · 이야기", en: "Questions 35–45", words: [
+      ["occupational","adj.","직업의, 직업상의","work-related","Burnout was recognized as an occupational phenomenon in 2019.","번아웃은 2019년에 직업적 현상으로 인정되었다.","","35번"],
+      ["intervention","n.","개입","involvement","Employers should adopt structural interventions.","고용주들은 구조적인 개입을 채택해야 한다.","","35번"],
+      ["collaborate","v.","협력하다","cooperate","Clinicians should collaborate with leadership.","임상의들은 지도부와 협력해야 한다.","","35번"],
+      ["resilience","n.","회복 탄력성","toughness","Burnout is not just a matter of individual resilience.","번아웃은 단지 개인의 회복 탄력성의 문제가 아니다.","","35번"],
+      ["burden","n.","부담","load","We should not place the burden solely on individuals.","우리는 부담을 개인에게만 지워서는 안 된다.","","35번"],
+      ["disturb","v.","흔들다, 방해하다","unsettle","All sound begins with something that disturbs molecules.","모든 소리는 분자를 흔드는 무언가로 시작한다.","","36번"],
+      ["molecule","n.","분자","particle","Sound is nothing more than the disturbance of molecules.","소리는 분자의 흔들림에 불과하다.","","36번"],
+      ["psychological","adj.","심리적인","mental","Sound is a psychological concept.","소리는 심리적인 개념이다.","","36번"],
+      ["creature","n.","생물","living thing","If no creature hears it, it has not made sound.","어떤 생물도 그것을 듣지 못한다면 그것은 소리를 낸 것이 아니다.","","36번"],
+      ["cue","n.","신호, 단서","signal","They can see different communication cues.","그들은 다양한 의사소통 신호를 볼 수 있다.","","37번"],
+      ["remote","adj.","원격의, 멀리 떨어진","distant","Remote communication technology has a big impact.","원격 의사소통 기술은 큰 영향을 미친다.","","37번"],
+      ["separate","v.","분리하다","divide","The task space is often separated from the communication space.","작업 공간은 종종 의사소통 공간과 분리된다.","","37번"],
+      ["seamless","adj.","끊김 없는, 매끄러운","smooth","He describes this as seamless communication.","그는 이것을 끊김 없는 의사소통이라고 묘사한다.","","37번"],
+      ["repetition","n.","반복","recurrence","Belief in the claim went up with repetition.","그 주장에 대한 믿음은 반복에 따라 높아졌다.","","38번"],
+      ["interval","n.","간격","gap","They rated the statements at two-week intervals.","그들은 2주 간격으로 그 진술들을 평가했다.","","38번"],
+      ["astonishing","adj.","놀라운","amazing","What they found was astonishing.","그들이 발견한 것은 놀라웠다.","","38번"],
+      ["illusory","adj.","착각의, 환상에 불과한","false","This became known as the illusory truth effect.","이것은 착각적 진실 효과로 알려지게 되었다.","","38번"],
+      ["submerge","v.","물속에 잠그다","sink","When submerged underwater, you feel the pressure.","물속에 잠기면 압력을 느끼게 된다.","","39번"],
+      ["external","adj.","외부의","outside","External pressure is balanced by internal pressure.","외부 압력은 내부 압력에 의해 균형을 이룬다.","","39번"],
+      ["proportionally","adv.","비례하여","correspondingly","Water pressure increases proportionally with depth.","수압은 깊이에 비례하여 증가한다.","","39번"],
+      ["stabilize","v.","안정시키다","steady","Divers need air to stabilize pressure.","잠수부는 압력을 안정시키기 위해 공기가 필요하다.","","39번"],
+      ["hostile","adj.","적대적인","unfriendly","Goldenrods in more hostile territory signal to their neighbors.","더 적대적인 지역의 미역취는 이웃에게 신호를 보낸다.","","40번"],
+      ["kin","n.","친족","relatives","The alarm calls are understandable only to their close kin.","그 경고 신호는 가까운 친족만 이해할 수 있다.","","40번"],
+      ["beneficial","adj.","유익한","helpful","These chemical communications are beneficial to the sender.","이 화학적 의사소통은 보내는 쪽에게 유익하다.","","40번"],
+      ["interfere","v.","방해하다, 간섭하다","obstruct","Infinite scroll interferes with the user's control.","무한 스크롤은 사용자의 통제를 방해한다.","","41~42번"],
+      ["sustainability","n.","지속 가능성","eco-friendliness","From a sustainability perspective, these patterns are a problem.","지속 가능성의 관점에서 이 패턴들은 문제이다.","","41~42번"],
+      ["default","n.","기본값","standard setting","Make the lower-impact option the default.","영향이 더 적은 선택지를 기본값으로 만들어라.","","41~42번"],
+      ["nudge","v.","(넌지시) 유도하다","push gently","Web design always nudges behavior in some way.","웹 디자인은 항상 어떤 식으로든 행동을 유도한다.","","41~42번"],
+      ["confidence","n.","자신감","self-assurance","She wanted to enter, but lacked confidence.","그녀는 참가하고 싶었지만 자신감이 부족했다.","","43~45번"],
+      ["encouragement","n.","격려","support","With Grandma's encouragement, the painting turned into a masterpiece.","할머니의 격려로 그 그림은 걸작으로 변했다.","","43~45번"]
+    ]}
   ]}
 ].map(level => ({
   ...level,
   units: level.units.map(u => ({
     ...u,
-    label: u.id.startsWith("d") ? "Day " + u.id.slice(1) : "Unit " + u.id.slice(1),
-    words: u.words.map(([word, pos, ko, syn, sent, sentKo, root]) => ({ word, pos, ko, syn, sent, sentKo, root }))
+    label: u.label || (u.id.startsWith("d") ? "Day " + u.id.slice(1) : "Unit " + u.id.slice(1)),
+    words: u.words.map(([word, pos, ko, syn, sent, sentKo, root, src]) => ({ word, pos, ko, syn, sent, sentKo, root: root || undefined, src }))
   }))
 }));

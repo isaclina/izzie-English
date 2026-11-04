@@ -5,7 +5,7 @@
 import { getStore } from "@netlify/blobs";
 
 const STUDENTS = ["A", "B", "C", "D", "E", "F", "G"];
-const LEVELS = ["root", "hsbasic", "csat", "csatplus", "ebs"];
+const LEVELS = ["root", "hsbasic", "csat", "csatplus", "ebs", "mock2610"];
 const UNIT_ID = /^(u[1-9]|d\d{2})$/;
 const MAX_LOG = 300;
 

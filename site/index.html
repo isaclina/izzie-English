@@ -169,7 +169,7 @@ function topBar(back) {
 
 function viewStudents() {
   return `
-  <header><p class="eyebrow">Izzie English · 5 levels · ${LEVELS.reduce((n, l) => n + levelSize(l), 0)} words</p><h1>Izzie 영단어</h1></header>
+  <header><p class="eyebrow">Izzie English · ${LEVELS.length} levels · ${LEVELS.reduce((n, l) => n + levelSize(l), 0)} words</p><h1>Izzie 영단어</h1></header>
   <section class="panel">
     <h2>누구인가요?</h2>
     <p class="muted">내 이름 글자를 눌러 시작하세요. 공부한 기록은 선생님께 전달됩니다.</p>
@@ -181,7 +181,7 @@ function viewStudents() {
 function viewLevels() {
   return `
   ${topBar(`<button class="back" data-act="switch">← 학생 바꾸기</button>`)}
-  <header><p class="eyebrow">5 levels · 3 units · 30 words</p><h1>단계를 고르세요</h1></header>
+  <header><p class="eyebrow">${LEVELS.length} levels</p><h1>단계를 고르세요</h1></header>
   <section class="levels">
     ${LEVELS.map((l, i) => {
       const n = studiedLevel(l);
@@ -247,6 +247,7 @@ function viewStudy() {
     <div><p class="pos">${esc(w.pos)}</p><p class="word">${esc(w.word)}</p></div>
     <p class="meaning">${esc(w.ko)}</p>
     ${w.root ? `<p class="root">어원 · ${esc(w.root)}</p>` : ""}
+    ${w.src ? `<p class="root">출처 · ${esc(curLevel().title)} ${esc(w.src)}</p>` : ""}
     <div class="row"><button class="btn primary" data-act="say" data-text="${esc(w.word)}">🔊 발음 듣기</button>
     <button class="btn" data-act="say" data-slow="1" data-text="${esc(w.word)}">🐢 천천히</button></div>`;
   if (s === 1) body = `
